@@ -1,0 +1,7 @@
+<% if current_user && current_user.instructor? %>
+  <% if @lesson.instructor.nil? %>
+    <%= button_to "Take It", set_instructor_path, :method => :put %>
+  <% else %>
+    Too late!
+  <% end %>
+<% end %>

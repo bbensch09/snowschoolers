@@ -1,0 +1,20 @@
+mysql: &mysql
+  encoding: utf8
+  adapter: mysql2
+  username: root
+  host: localhost
+
+common: &defaults
+  <<: *mysql
+
+development:
+  <<: *defaults
+  database: snow_schoolers_development
+
+test:
+  <<: *defaults
+  database: snow_schoolers_test
+
+production:
+  <<: *defaults
+  database: snow_schoolers_test
