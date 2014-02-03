@@ -1,7 +1,12 @@
-<% if current_user && current_user.instructor? %>
-  <% if @lesson.instructor.nil? %>
-    <%= button_to "Take It", set_instructor_path, :method => :put %>
+<p>Date: <%= @lesson_time.date  %></p>
+<p>Slot: <%= @lesson_time.slot %></p>
+
+<% if @lesson.instructor.nil? %>
+  <% if current_user && current_user.instructor? %>
+    <%= button_to "Take It", set_instructor_path, method: :put %>
   <% else %>
-    Too late!
+    <p>No instructor assigned yet.</p>
   <% end %>
+<% else %>
+  <p>Instructor: <%= @lesson.instructor.name %></p>
 <% end %>

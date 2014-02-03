@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20140202214228) do
 
   create_table "lesson_times", force: true do |t|
-    t.date   "lesson_date"
+    t.date   "date"
     t.string "slot"
   end
 

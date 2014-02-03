@@ -46,4 +46,4 @@ end
 
 gem 'devise'
 gem 'formtastic'
-gem 'pry'
+gem 'pry-debugger'

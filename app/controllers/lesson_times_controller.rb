@@ -6,8 +6,7 @@ class LessonTimesController < ApplicationController
   def create
     if current_user
       lesson = create_lesson(params)
-      send_email_to_instructors(lesson)
-      flash[:notice] = "Your lesson request is being processed."
+      flash[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
     else
       flash[:alert] = "Please log in to request a lesson."
     end
@@ -18,12 +17,13 @@ class LessonTimesController < ApplicationController
 
     def create_lesson(params)
       lesson = Lesson.new
-      lesson.lesson_time = LessonTime.find_or_create_by_lesson_date_and_slot(params)
+      lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
       lesson.student = current_user
       lesson.save
+      return lesson
     end
 
-    def send_email_to_instructors(lesson)
-      # send emails w/ link to lesson
+    def lesson_time_params
+      params.require(:lesson_time).permit(:date, :slot)
     end
 end
