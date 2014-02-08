@@ -1,5 +1,6 @@
-<p>Date: <%= @lesson_time.date  %></p>
+<p>Date: <%= @lesson_time.date %></p>
 <p>Slot: <%= @lesson_time.slot %></p>
+<p>Student: <%= @lesson.student.name %></p>
 
 <% if @lesson.instructor.nil? %>
   <% if current_user && current_user.instructor? %>
