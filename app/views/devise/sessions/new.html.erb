@@ -11,6 +11,11 @@
     <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
   <% end -%>
 
+  <% if params[:date] && params[:slot] %>
+    <%= f.hidden_field :date, value: params[:date] %>
+    <%= f.hidden_field :slot, value: params[:slot] %>
+  <% end %>
+
   <div><%= f.submit "Sign in" %></div>
 <% end %>
 

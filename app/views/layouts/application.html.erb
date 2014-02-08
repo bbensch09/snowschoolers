@@ -14,8 +14,13 @@
     <%= current_user.name %>
     <%= link_to 'Log Out', destroy_user_session_path %>
   <% else %>
-    <%= link_to 'Sign Up', new_user_registration_path %>
-    <%= link_to 'Log In', new_user_session_path %>
+    <% if params[:date] && params[:slot] %>
+      <%= link_to 'Sign Up', new_user_registration_path(date: params[:date], slot: params[:slot]) %>
+      <%= link_to 'Log In', new_user_session_path(date: params[:date], slot: params[:slot]) %>
+    <% else %>
+      <%= link_to 'Sign Up', new_user_registration_path %>
+      <%= link_to 'Log In', new_user_session_path %>
+    <% end %>
   <% end %>
 </nav>
 

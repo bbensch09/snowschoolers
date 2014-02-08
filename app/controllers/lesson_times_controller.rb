@@ -9,6 +9,7 @@ class LessonTimesController < ApplicationController
       flash[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
     else
       flash[:alert] = "Please log in to request a lesson."
+      return redirect_to new_user_session_path(params[:lesson_time])
     end
     redirect_to root_path
   end

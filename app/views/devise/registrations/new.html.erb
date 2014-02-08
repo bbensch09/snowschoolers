@@ -18,6 +18,11 @@
   <div><%= f.check_box :instructor %>
   <%= f.label 'Instructor?' %></div>
 
+  <% if params[:date] && params[:slot] %>
+    <%= f.hidden_field :date, value: params[:date] %>
+    <%= f.hidden_field :slot, value: params[:slot] %>
+  <% end %>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
