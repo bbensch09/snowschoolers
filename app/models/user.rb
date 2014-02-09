@@ -25,4 +25,32 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  # Devise overrides
+
+  def password_required?
+    super || provider.blank?
+  end
+
+  def update_with_password(params, *options)
+    binding.pry
+    current_password = params.delete(:current_password)
+
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = if valid_password?(current_password)
+      update_columns(params, *options)
+    else
+      self.assign_attributes(params, *options)
+      self.valid?
+      self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+      false
+    end
+
+    clean_up_passwords
+    result
+  end
 end
