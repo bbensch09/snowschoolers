@@ -11,7 +11,8 @@
 <nav>
   <%= link_to 'Home', root_path %>
   <% if current_user %>
-    <%= current_user.name %>
+    <% name = current_user.name.present? ? current_user.name : 'Profile' %>
+    <%= link_to name, edit_user_registration_path %>
     <%= link_to 'Log Out', destroy_user_session_path %>
   <% else %>
     <% if params[:date] && params[:slot] %>
