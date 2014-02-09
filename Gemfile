@@ -49,6 +49,7 @@ end
 gem 'devise'
 gem 'formtastic'
 gem 'pry-debugger'
+gem 'omniauth-facebook'
 
 # Heroku
 group :production do

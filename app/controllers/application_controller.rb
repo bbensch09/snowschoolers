@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def after_sign_in_path_for(user)
-    if params[:user][:date] && params[:user][:slot]
+    if params[:user] && params[:user][:date] && params[:user][:slot]
       params[:lesson_time] = { date: params[:user][:date], slot: params[:user][:slot] }
       lesson = create_lesson
       flash[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
