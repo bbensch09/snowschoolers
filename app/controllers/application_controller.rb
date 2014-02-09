@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def create_lesson_from_cookie
     return unless current_user && session[:lesson_time]
-    params[:lesson_time] = session[:lesson_time]
+    params[:lesson_time] = session.delete(:lesson_time)
     lesson = create_lesson
     flash[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
   end
