@@ -3,6 +3,7 @@ class LessonsController < ApplicationController
   def show
     @lesson = Lesson.find(params[:id])
     @lesson_time = @lesson.lesson_time
+    check_user_permissions
   end
 
   def set_instructor
@@ -12,6 +13,12 @@ class LessonsController < ApplicationController
 
   private
 
+  def check_user_permissions
+    unless current_user && (current_user == @lesson.student || current_user.instructor?)
+      flash[:alert] = "You do not have access to this page."
+      redirect_to root_path
+    end 
+  end
 
   def set_lesson_instructor
     @lesson = Lesson.find(params[:id])

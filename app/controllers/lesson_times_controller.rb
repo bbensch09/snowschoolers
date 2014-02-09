@@ -1,4 +1,5 @@
 class LessonTimesController < ApplicationController
+  skip_before_filter :authenticate_user!, only: [:new, :create]
   before_filter :save_lesson_params_and_redirect, only: :create
 
   def new
