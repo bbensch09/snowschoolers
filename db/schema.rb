@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140208235919) do
+ActiveRecord::Schema.define(version: 20140209185223) do
 
   create_table "lesson_times", force: true do |t|
     t.date   "date"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140208235919) do
     t.string   "last_sign_in_ip"
     t.string   "provider"
     t.string   "uid"
+    t.string   "image"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
