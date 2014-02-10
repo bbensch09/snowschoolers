@@ -2,4 +2,21 @@ class Lesson < ActiveRecord::Base
   belongs_to :student, class_name: 'User', foreign_key: 'student_id'
   belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
   belongs_to :lesson_time
+
+  validate :instructors_must_be_available
+
+  def available_instructors
+    User.instructors - Lesson.booked_instructors(lesson_time)
+  end
+
+  def self.booked_instructors(lesson_time)
+    booked_lessons = self.where('lesson_time_id = ? AND instructor_id is not null', lesson_time.id)
+    booked_lessons.map { |lesson| User.find(lesson.instructor_id) }
+  end
+
+  private
+
+  def instructors_must_be_available
+    errors.add(:instructor, "not available") unless available_instructors.any?
+  end
 end

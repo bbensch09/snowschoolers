@@ -7,8 +7,7 @@ class LessonTimesController < ApplicationController
   end
 
   def create
-    lesson = create_lesson
-    flash[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
+    create_lesson
     redirect_to root_path
   end
 

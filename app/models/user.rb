@@ -6,6 +6,12 @@ class User < ActiveRecord::Base
   has_many :lessons
   has_many :lesson_times, through: :lessons
 
+  def self.instructors
+    self.where('instructor = true')
+  end
+
+  # Facebook OAuth
+
   def self.find_for_facebook_oauth(auth)
     where(auth.slice(:provider, :uid)).first_or_create do |user|
       user.provider = auth.provider

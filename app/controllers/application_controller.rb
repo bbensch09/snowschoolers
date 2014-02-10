@@ -8,15 +8,22 @@ class ApplicationController < ActionController::Base
   def create_lesson_from_session
     return unless current_user && session[:lesson_time]
     params[:lesson_time] = session.delete(:lesson_time)
-    lesson = create_lesson
-    flash.now[:notice] = "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
+    create_lesson(auto: true)
   end
 
-  def create_lesson
+  def create_lesson(opts={})
     lesson = Lesson.new
     lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     lesson.student = current_user
-    lesson.save
+
+    notice = if lesson.save
+      "Your <a href='#{lesson_path(lesson)}'>lesson</a> request is being processed.".html_safe
+    else
+      lesson.errors.full_messages.first
+    end
+
+    opts[:auto] ? flash.now[:notice] = notice : flash[:notice] = notice
+
     return lesson
   end
 
