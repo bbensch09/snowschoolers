@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
   end
 
   def update_with_password(params, *options)
-    binding.pry
     current_password = params.delete(:current_password)
 
     if params[:password].blank?
