@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
     else
       self.assign_attributes(params, *options)
       self.valid?
+      self.errors.messages.delete(:password) unless params[:password]
       self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
       false
     end
