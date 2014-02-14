@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
     self.where('instructor = true')
   end
 
+  def lesson_times
+    Lesson.find_lesson_times_by_student(self)
+  end
+
   # Facebook OAuth
 
   def self.find_for_facebook_oauth(auth)
