@@ -165,6 +165,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+  debugger
   devise
   formtastic
   jbuilder (~> 1.2)
