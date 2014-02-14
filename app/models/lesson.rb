@@ -5,6 +5,16 @@ class Lesson < ActiveRecord::Base
 
   validate :instructors_must_be_available
 
+  after_create :send_lesson_request_to_instructors
+
+  def date
+    lesson_time.date
+  end
+
+  def slot
+    lesson_time.slot
+  end
+
   def available_instructors
     User.instructors - Lesson.booked_instructors(lesson_time)
   end
@@ -18,5 +28,9 @@ class Lesson < ActiveRecord::Base
 
   def instructors_must_be_available
     errors.add(:instructor, "not available") unless available_instructors.any?
+  end
+
+  def send_lesson_request_to_instructors
+    LessonMailer.send_lesson_request_to_instructors(self).deliver
   end
 end

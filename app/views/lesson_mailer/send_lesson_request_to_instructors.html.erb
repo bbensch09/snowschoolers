@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Lesson Request</h1>
+    <ul>
+      <li>Student: <%= @lesson.student.name %></li>
+      <li>Date: <%= @lesson.date %></li>
+      <li>Slot: <%= @lesson.slot %></li>
+    </ul>
+    <p>
+      To take the lesson, go to the lesson page below
+      and click the 'Take It' button before another
+      instructor beats you to it!
+    </p>
+    <p>
+      <%= lesson_url(@lesson) %>
+    </p>
+  </body>
+</html>
