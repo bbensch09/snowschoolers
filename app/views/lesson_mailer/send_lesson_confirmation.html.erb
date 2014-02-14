@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Lesson Request Confirmed</h1>
+    <ul>
+      <li>Student: <%= @lesson.student.name %></li>
+      <li>Instructor: <%= @lesson.instructor.name %></li>
+      <li>Date: <%= @lesson.date %></li>
+      <li>Slot: <%= @lesson.slot %></li>
+    </ul>
+    <p>
+      <%= lesson_url(@lesson) %>
+    </p>
+  </body>
+</html>

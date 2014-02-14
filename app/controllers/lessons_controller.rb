@@ -8,6 +8,7 @@ class LessonsController < ApplicationController
 
   def set_instructor
     set_lesson_instructor
+    LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
   end
 
