@@ -3,9 +3,9 @@ class Lesson < ActiveRecord::Base
   belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
   belongs_to :lesson_time
 
-  validate :instructors_must_be_available
-  validate :lesson_must_not_already_exist
-  validate :requester_must_not_be_instructor
+  validate :instructors_must_be_available, on: :create
+  validate :lesson_must_not_already_exist, on: :create
+  validate :requester_must_not_be_instructor, on: :create
 
   after_create :send_lesson_request_to_instructors
 
