@@ -1,5 +1,5 @@
 SnowSchoolers::Application.routes.draw do
-  root to: "lesson_times#new"
+  root to: "lessons#new"
 
   resources :lesson_times
   
@@ -7,4 +7,5 @@ SnowSchoolers::Application.routes.draw do
 
   resources :lessons
   put 'lessons/:id/set_instructor' => 'lessons#set_instructor', as: :set_instructor
+  get 'lessons/:id/complete' => 'lessons#complete', as: :complete_lesson
 end

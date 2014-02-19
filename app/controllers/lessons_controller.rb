@@ -1,8 +1,35 @@
 class LessonsController < ApplicationController
+  skip_before_filter :authenticate_user!, only: [:new, :create]
+  before_filter :save_lesson_params_and_redirect, only: :create
+  before_filter :create_lesson_from_session
+
+  def new
+    @lesson = Lesson.new
+  end
+
+  def create
+    create_lesson
+  end
+
+  def complete
+    @lesson = Lesson.find(params[:id])
+    @lesson_time = @lesson.lesson_time
+  end
+
+  def edit
+    @lesson = Lesson.find(params[:id])
+    @lesson_time = @lesson.lesson_time
+  end
+
+  def update
+    lesson = Lesson.find(params[:id])
+    lesson.update(lesson_params)
+    lesson.lesson_time.update(lesson_time_params)
+    redirect_to lesson
+  end
 
   def show
     @lesson = Lesson.find(params[:id])
-    @lesson_time = @lesson.lesson_time
     check_user_permissions
   end
 
@@ -13,6 +40,35 @@ class LessonsController < ApplicationController
   end
 
   private
+
+  def save_lesson_params_and_redirect
+    unless current_user
+      flash[:alert] = "You need to sign in or sign up before continuing."
+      session[:lesson] = params[:lesson]
+      redirect_to new_user_session_path and return
+    end
+  end
+
+  def create_lesson_from_session
+    return unless current_user && session[:lesson]
+    params[:lesson] = session.delete(:lesson)
+    create_lesson
+  end
+
+  def create_lesson
+    lesson = Lesson.new(lesson_params)
+    lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    lesson.student = current_user
+    lesson.save ? (redirect_to complete_lesson_path(lesson)) : (redirect_to root_path)
+  end
+
+  def lesson_params
+    params.require(:lesson).permit(:activity, :location, :student_count, :gear, :objectives)
+  end
+
+  def lesson_time_params
+    params[:lesson].require(:lesson_time).permit(:date, :slot)
+  end
 
   def check_user_permissions
     unless current_user && (current_user == @lesson.student || current_user.instructor?)
