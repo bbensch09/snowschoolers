@@ -46,6 +46,6 @@ class Lesson < ActiveRecord::Base
   end
 
   def send_lesson_request_to_instructors
-    LessonMailer.send_lesson_request_to_instructors(self).deliver
+    LessonMailer.send_lesson_request_to_instructors(self).deliver if Rails.env.production?
   end
 end

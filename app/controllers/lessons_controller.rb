@@ -8,7 +8,7 @@ class LessonsController < ApplicationController
 
   def set_instructor
     set_lesson_instructor
-    LessonMailer.send_lesson_confirmation(@lesson).deliver
+    LessonMailer.send_lesson_confirmation(@lesson).deliver if Rails.env.production?
     redirect_to @lesson
   end
 
