@@ -3,8 +3,10 @@ class Lesson < ActiveRecord::Base
   belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
   belongs_to :lesson_time
 
+  validates :activity, :location, :lesson_time, presence: true
+  validates :student_count, :objectives, presence: true, on: :update
+  validates :gear, inclusion: { in: [true, false] }, on: :update
   validate :instructors_must_be_available, on: :create
-  validate :lesson_must_not_already_exist, on: :create
   validate :requester_must_not_be_instructor, on: :create
 
   after_create :send_lesson_request_to_instructors
@@ -34,11 +36,6 @@ class Lesson < ActiveRecord::Base
 
   def instructors_must_be_available
     errors.add(:instructor, "not available") unless available_instructors.any?
-  end
-
-  def lesson_must_not_already_exist
-    existing_lesson_time = self.student.lesson_times & [self.lesson_time]
-    errors.add(:lesson, "already exists at this time") if existing_lesson_time.present?
   end
 
   def requester_must_not_be_instructor

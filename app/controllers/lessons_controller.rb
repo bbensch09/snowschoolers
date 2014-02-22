@@ -1,10 +1,13 @@
 class LessonsController < ApplicationController
+  respond_to :html
+
   skip_before_filter :authenticate_user!, only: [:new, :create]
   before_filter :save_lesson_params_and_redirect, only: :create
   before_filter :create_lesson_from_session
 
   def new
     @lesson = Lesson.new
+    @lesson_time = @lesson.lesson_time
   end
 
   def create
@@ -22,10 +25,12 @@ class LessonsController < ApplicationController
   end
 
   def update
-    lesson = Lesson.find(params[:id])
-    lesson.update(lesson_params)
-    lesson.lesson_time.update(lesson_time_params)
-    redirect_to lesson
+    @lesson = Lesson.find(params[:id])
+    @lesson.update(lesson_params)
+    @lesson_time = @lesson.lesson_time
+    @lesson_time.update(lesson_time_params)
+    @lesson.errors.add(:lesson_time, "invalid") unless @lesson_time.valid?
+    respond_with @lesson
   end
 
   def show
@@ -56,10 +61,11 @@ class LessonsController < ApplicationController
   end
 
   def create_lesson
-    lesson = Lesson.new(lesson_params)
-    lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    lesson.student = current_user
-    lesson.save ? (redirect_to complete_lesson_path(lesson)) : (redirect_to root_path)
+    @lesson = Lesson.new(lesson_params)
+    @lesson.student = current_user
+    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    @lesson.errors.add(:lesson_time, "invalid") unless @lesson_time.valid?
+    @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
   end
 
   def lesson_params

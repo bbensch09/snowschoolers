@@ -1,14 +1,16 @@
 <%= semantic_form_for @lesson do |f| %>
+  <%= f.semantic_errors :instructor %>
+
   <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'] %>
   <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'] %>
 
-  <%= f.inputs for: :lesson_time do |lt_f| %>
-    <%= lt_f.input :date, input_html: { id: 'datepicker', value: @lesson_time.date } %>
-    <%= lt_f.input :slot, collection: options_for_select(['Morning', 'Afternoon'], @lesson_time.slot) %>
+  <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
+    <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
+    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'] %>
   <% end %>
 
   <%= f.input :student_count, as: :select, collection: [1, 2, 3, 4, 5, 6] %>
-  <%= f.input :gear, as: :select, collection: [['Yes, I have gear', 1], ['No, I need gear', 2]] %>
+  <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
   <%= f.input :objectives %>
 
   <%= f.actions %>

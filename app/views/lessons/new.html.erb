@@ -1,9 +1,11 @@
 <%= semantic_form_for @lesson do |f| %>
+  <%= f.semantic_errors :instructor %>
+
   <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'] %>
   <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'] %>
 
-  <%= f.inputs for: :lesson_time do |lt_f| %>
-    <%= lt_f.input :date, input_html: { id: 'datepicker' } %>
+  <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
+    <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
     <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'] %>
   <% end %>
 
