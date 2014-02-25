@@ -25,12 +25,7 @@ class LessonsController < ApplicationController
   end
 
   def update
-    @lesson = Lesson.find(params[:id])
-    @lesson.update(lesson_params)
-    @lesson_time = @lesson.lesson_time
-    @lesson_time.update(lesson_time_params)
-    @lesson.errors.add(:lesson_time, "invalid") unless @lesson_time.valid?
-    respond_with @lesson
+    update_lesson_and_redirect
   end
 
   def show
@@ -74,6 +69,21 @@ class LessonsController < ApplicationController
     @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
   end
 
+  def update_lesson_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @original_lesson = @lesson.dup
+    @lesson.update(lesson_params)
+    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    
+    if @lesson_time.valid?
+      send_lesson_update_notice_to_instructor if @lesson.valid?
+    else
+      @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid?
+    end
+    
+    respond_with @lesson
+  end
+
   def destroy_lesson_and_redirect
     @lesson = Lesson.find(params[:id])
     send_cancellation_email_to_instructor
@@ -95,6 +105,21 @@ class LessonsController < ApplicationController
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end 
+  end
+
+  def send_lesson_update_notice_to_instructor
+    if @lesson.instructor.present?
+      changed_attributes = get_changed_attributes
+      return unless changed_attributes.any?
+      LessonMailer.send_lesson_update_notice_to_instructor(@original_lesson, @lesson, changed_attributes).deliver
+    end
+  end
+
+  def get_changed_attributes
+    lesson_changes = @lesson.previous_changes
+    lesson_time_changes = @lesson_time.attributes.diff(@original_lesson.lesson_time.attributes)
+    changed_attributes = lesson_changes.merge(lesson_time_changes)
+    changed_attributes.reject { |attribute, change| attribute == 'updated_at' || attribute == 'id' }
   end
 
   def send_cancellation_email_to_instructor

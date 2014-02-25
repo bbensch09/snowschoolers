@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Lesson Update Notice</h1>
+    <p>Original Lesson:</p>
+    <ul>
+      <li>Requester: <%= @original_lesson.student.name %></li>
+      <li>Instructor: <%= @original_lesson.instructor.name %></li>
+      <li>Total students: <%= @original_lesson.student_count %></li>
+      <li>Date: <%= @original_lesson.date %></li>
+      <li>Slot: <%= @original_lesson.slot %></li>
+      <li>Location: <%= @original_lesson.location %></li>`
+    </ul>
+    <p>Changes:</p>
+    <ul>
+      <% @changed_attributes.each do |attribute, change| %>
+        <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %></li>
+      <% end %>
+    </ul>
+    <p>
+      If this still works for you, no need to take any action.  
+      If you are no longer able to take this lesson, please go to 
+      the lesson page below and click the 'Drop It' button so we 
+      can reassign the lesson to another instructor:
+    </p>
+    <p>
+      <%= lesson_url(@updated_lesson) %>
+    </p>
+  </body>
+</html>
