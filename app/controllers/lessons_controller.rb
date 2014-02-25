@@ -99,7 +99,7 @@ class LessonsController < ApplicationController
 
   def send_cancellation_email_to_instructor
     if @lesson.instructor.present?
-      LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver if Rails.env.production?
+      LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver
     end
   end
 
