@@ -19,5 +19,7 @@
   <% end %>
 <% end %>
 
-<%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
-<%= link_to 'Cancel Lesson', @lesson, method: :delete %>
+<% if current_user && current_user == @lesson.student %>
+  <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
+  <%= link_to 'Cancel Lesson', @lesson, method: :delete %>
+<% end %>
