@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Lesson Cancellation Notice</h1>
+    <p>
+      We're sorry, but one of your students has cancelled
+      his/her lesson. Here are the lesson details, for your
+      reference:
+    </p>
+    <ul>
+      <li>Requester: <%= @lesson.student.name %></li>
+      <li>Total students: <%= @lesson.student_count %></li>
+      <li>Date: <%= @lesson.date %></li>
+      <li>Slot: <%= @lesson.slot %></li>
+      <li>Location: <%= @lesson.location %></li>
+    </ul>
+  </body>
+</html>

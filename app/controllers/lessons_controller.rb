@@ -40,6 +40,7 @@ class LessonsController < ApplicationController
 
   def destroy
     @lesson = Lesson.find(params[:id])
+    send_cancellation_email_to_instructor
     @lesson.destroy
     flash[:notice] = 'Your lesson has been cancelled.'
     redirect_to root_path
@@ -93,6 +94,12 @@ class LessonsController < ApplicationController
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end 
+  end
+
+  def send_cancellation_email_to_instructor
+    if @lesson.instructor.present?
+      LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver if Rails.env.production?
+    end
   end
 
   def set_lesson_instructor

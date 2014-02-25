@@ -4,11 +4,16 @@ class LessonMailer < ActionMailer::Base
   def send_lesson_request_to_instructors(lesson)
     @lesson = lesson
     @available_instructors = lesson.available_instructors.map(&:email)
-    mail(bcc: @available_instructors, subject: 'New Snow Schoolers Lesson Request')
+    mail(bcc: @available_instructors, subject: 'New Snow Schoolers lesson request')
   end
 
   def send_lesson_confirmation(lesson)
     @lesson = lesson
-    mail(to: @lesson.student.email, subject: 'Your Snow Schoolers Lesson Has Been Confirmed')
+    mail(to: @lesson.student.email, subject: 'Your Snow Schoolers lesson has been confirmed')
+  end
+
+  def send_cancellation_email_to_instructor(lesson)
+    @lesson = lesson
+    mail(to: @lesson.instructor.email, subject: 'One of your Snow Schoolers lessons has been cancelled')
   end
 end
