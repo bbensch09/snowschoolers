@@ -11,7 +11,7 @@ class LessonsController < ApplicationController
   end
 
   def create
-    create_lesson
+    create_lesson_and_redirect
   end
 
   def complete
@@ -39,29 +39,22 @@ class LessonsController < ApplicationController
   end
 
   def destroy
-    @lesson = Lesson.find(params[:id])
-    send_cancellation_email_to_instructor
-    @lesson.destroy
-    flash[:notice] = 'Your lesson has been cancelled.'
-    redirect_to root_path
+    destroy_lesson_and_redirect
   end
 
   def set_instructor
-    set_lesson_instructor
-    LessonMailer.send_lesson_confirmation(@lesson).deliver if Rails.env.production?
-    redirect_to @lesson
+    set_lesson_instructor_and_redirect
   end
 
   def remove_instructor
-    remove_lesson_instructor
-    redirect_to @lesson
+    remove_lesson_instructor_and_redirect
   end
 
   private
 
   def save_lesson_params_and_redirect
     unless current_user
-      flash[:alert] = "You need to sign in or sign up before continuing."
+      flash[:alert] = 'You need to sign in or sign up before continuing.'
       session[:lesson] = params[:lesson]
       redirect_to new_user_session_path and return
     end
@@ -70,15 +63,23 @@ class LessonsController < ApplicationController
   def create_lesson_from_session
     return unless current_user && session[:lesson]
     params[:lesson] = session.delete(:lesson)
-    create_lesson
+    create_lesson_and_redirect
   end
 
-  def create_lesson
+  def create_lesson_and_redirect
     @lesson = Lesson.new(lesson_params)
     @lesson.student = current_user
     @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.errors.add(:lesson_time, "invalid") unless @lesson_time.valid?
+    @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid?
     @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
+  end
+
+  def destroy_lesson_and_redirect
+    @lesson = Lesson.find(params[:id])
+    send_cancellation_email_to_instructor
+    @lesson.destroy
+    flash[:notice] = 'Your lesson has been cancelled.'
+    redirect_to root_path
   end
 
   def lesson_params
@@ -102,15 +103,18 @@ class LessonsController < ApplicationController
     end
   end
 
-  def set_lesson_instructor
+  def set_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = current_user
     @lesson.save
+    LessonMailer.send_lesson_confirmation(@lesson).deliver
+    redirect_to @lesson
   end
 
-  def remove_lesson_instructor
+  def remove_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = nil
-    @lesson.save    
+    @lesson.save
+    redirect_to @lesson
   end
 end
