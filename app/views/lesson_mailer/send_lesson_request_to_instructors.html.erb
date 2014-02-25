@@ -6,9 +6,11 @@
   <body>
     <h1>New Lesson Request</h1>
     <ul>
-      <li>Student: <%= @lesson.student.name %></li>
+      <li>Requester: <%= @lesson.student.name %></li>
+      <li>Total students: <%= @lesson.student_count %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>
+      <li>Location: <%= @lesson.location %></li>
     </ul>
     <p>
       To take the lesson, go to the lesson page below
