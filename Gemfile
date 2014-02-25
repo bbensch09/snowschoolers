@@ -6,6 +6,8 @@ gem 'rails', '4.0.2'
 # Use mysql2 as the database for Active Record
 group :development, :test do
   gem 'mysql2'
+  gem 'debugger'
+  gem 'pry-debugger'
 end
 
 # Use SCSS for stylesheets
@@ -44,12 +46,8 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-# Use debugger
-gem 'debugger', group: [:development, :test]
-
 gem 'devise'
 gem 'formtastic'
-gem 'pry-debugger'
 gem 'omniauth-facebook'
 
 # Heroku
