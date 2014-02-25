@@ -51,6 +51,11 @@ class LessonsController < ApplicationController
     redirect_to @lesson
   end
 
+  def remove_instructor
+    remove_lesson_instructor
+    redirect_to @lesson
+  end
+
   private
 
   def save_lesson_params_and_redirect
@@ -94,5 +99,11 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = current_user
     @lesson.save
+  end
+
+  def remove_lesson_instructor
+    @lesson = Lesson.find(params[:id])
+    @lesson.instructor = nil
+    @lesson.save    
   end
 end

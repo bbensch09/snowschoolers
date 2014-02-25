@@ -13,6 +13,9 @@
   <% end %>
 <% else %>
   <p>Instructor: <%= @lesson.instructor.name %></p>
+  <% if current_user == @lesson.instructor %>
+    <%= button_to "Drop It", remove_instructor_path, method: :put %>
+  <% end %>
 <% end %>
 
 <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
