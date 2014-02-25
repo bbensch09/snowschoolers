@@ -38,6 +38,13 @@ class LessonsController < ApplicationController
     check_user_permissions
   end
 
+  def destroy
+    @lesson = Lesson.find(params[:id])
+    @lesson.destroy
+    flash[:notice] = 'Your lesson has been cancelled.'
+    redirect_to root_path
+  end
+
   def set_instructor
     set_lesson_instructor
     LessonMailer.send_lesson_confirmation(@lesson).deliver if Rails.env.production?
