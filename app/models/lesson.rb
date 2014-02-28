@@ -27,6 +27,10 @@ class Lesson < ActiveRecord::Base
     state == 'pending instructor'
   end
 
+  def pending_requester?
+    state == 'pending requester'
+  end
+
   def available_instructors
     User.instructors - Lesson.booked_instructors(lesson_time)
   end

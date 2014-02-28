@@ -133,8 +133,15 @@ class LessonsController < ApplicationController
   def remove_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = nil
-    @lesson.update(state: 'pending requester')
+    send_instructor_cancellation_emails
+    @lesson.update(state: @available_instructors ? 'new' : 'pending requester')
     redirect_to @lesson
+  end
+
+  def send_instructor_cancellation_emails
+    @available_instructors = @lesson.available_instructors.any?
+    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @available_instructors
+    LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @available_instructors).deliver
   end
 
   def lesson_params

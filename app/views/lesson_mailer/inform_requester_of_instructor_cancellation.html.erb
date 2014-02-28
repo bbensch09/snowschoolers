@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Lesson Change Notice</h1>
+    <p>
+      Your previously assigned instructor is no longer available
+      for the following lesson:
+    </p>
+    <ul>
+      <li>Total students: <%= @lesson.student_count %></li>
+      <li>Date: <%= @lesson.date %></li>
+      <li>Slot: <%= @lesson.slot %></li>
+      <li>Location: <%= @lesson.location %></li>
+    </ul>
+    <p>
+      <% if @available_instructors %>
+        The good news is that there are other instructors available and we
+        are currently trying to find you a replacement.
+      <% else %>
+        Unfortunately, no other instructors are available at this time. We
+        apologize for the inconvenience. Please go to your lesson page and 
+        either update your preferences or cancel the lesson if you are no 
+        longer interested.
+      <% end %>
+    </p>
+    <p>
+      <%= lesson_url(@lesson) %>
+    </p>
+  </body>
+</html>
