@@ -23,6 +23,10 @@ class Lesson < ActiveRecord::Base
     state != 'canceled'
   end
 
+  def pending_instructor?
+    state == 'pending instructor'
+  end
+
   def available_instructors
     User.instructors - Lesson.booked_instructors(lesson_time)
   end
