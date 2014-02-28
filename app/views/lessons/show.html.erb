@@ -6,25 +6,25 @@
 <p>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></p>
 <p>Objectives: <%= @lesson.objectives %></p>
 
-<% if @lesson.instructor.nil? %>
-  <p>No instructor assigned yet.</p>
-<% else %>
+<% if @lesson.instructor %>
   <p>Instructor: <%= @lesson.instructor.name %></p>
+<% else %>
+  <p>No instructor assigned yet.</p>
 <% end %>
 
-<% if current_user && current_user.instructor? %>
-  <% if @lesson.instructor.nil? %>
+<% if @lesson.active? %>
+  <% if current_user.instructor? && @lesson.instructor.nil? %>
     <%= button_to "Take It", set_instructor_path, method: :put %>
-  <% else %>
+  <% end %>
+
+  <% if current_user == @lesson.instructor %>
     <% if @lesson.pending_instructor? %>
       <%= button_to "Confirm Updates", set_instructor_path, method: :put %>
     <% end %>
     <%= button_to "Drop It", remove_instructor_path, method: :put %>
   <% end %>
-<% end %>
 
-<% if @lesson.active? %>
-  <% if current_user && current_user == @lesson.student %>
+  <% if current_user == @lesson.requester %>
     <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
     <%= link_to 'Cancel Lesson', @lesson, method: :delete %>
   <% end %>
