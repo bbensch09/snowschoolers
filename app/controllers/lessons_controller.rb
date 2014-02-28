@@ -78,7 +78,7 @@ class LessonsController < ApplicationController
     if @lesson_time.valid?
       send_lesson_update_notice_to_instructor if @lesson.valid?
     else
-      @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid?
+      @lesson.errors.add(:lesson_time, 'invalid')
     end
     
     respond_with @lesson
