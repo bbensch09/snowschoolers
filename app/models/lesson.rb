@@ -19,6 +19,10 @@ class Lesson < ActiveRecord::Base
     lesson_time.slot
   end
 
+  def active?
+    state != 'canceled'
+  end
+
   def available_instructors
     User.instructors - Lesson.booked_instructors(lesson_time)
   end
