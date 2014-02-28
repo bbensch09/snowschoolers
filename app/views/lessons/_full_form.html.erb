@@ -13,6 +13,8 @@
   <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
   <%= f.input :objectives %>
 
+  <%= f.input :state, as: :hidden, input_html: { value: @state } %>
+
   <%= f.actions %>
 <% end %>
 

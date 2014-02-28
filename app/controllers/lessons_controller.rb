@@ -17,11 +17,13 @@ class LessonsController < ApplicationController
   def complete
     @lesson = Lesson.find(params[:id])
     @lesson_time = @lesson.lesson_time
+    @state = 'booked'
   end
 
   def edit
     @lesson = Lesson.find(params[:id])
     @lesson_time = @lesson.lesson_time
+    @state = @lesson.instructor ? 'pending instructor' : 'booked'
   end
 
   def update
@@ -34,7 +36,7 @@ class LessonsController < ApplicationController
   end
 
   def destroy
-    destroy_lesson_and_redirect
+    cancel_lesson_and_redirect
   end
 
   def set_instructor
@@ -84,20 +86,12 @@ class LessonsController < ApplicationController
     respond_with @lesson
   end
 
-  def destroy_lesson_and_redirect
+  def cancel_lesson_and_redirect
     @lesson = Lesson.find(params[:id])
+    @lesson.update(state: 'canceled')
     send_cancellation_email_to_instructor
-    @lesson.destroy
     flash[:notice] = 'Your lesson has been cancelled.'
     redirect_to root_path
-  end
-
-  def lesson_params
-    params.require(:lesson).permit(:activity, :location, :student_count, :gear, :objectives)
-  end
-
-  def lesson_time_params
-    params[:lesson].require(:lesson_time).permit(:date, :slot)
   end
 
   def check_user_permissions
@@ -131,7 +125,7 @@ class LessonsController < ApplicationController
   def set_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = current_user
-    @lesson.save
+    @lesson.update(state: 'confirmed')
     LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
   end
@@ -139,7 +133,15 @@ class LessonsController < ApplicationController
   def remove_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = nil
-    @lesson.save
+    @lesson.update(state: 'pending student')
     redirect_to @lesson
+  end
+
+  def lesson_params
+    params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives)
+  end
+
+  def lesson_time_params
+    params[:lesson].require(:lesson_time).permit(:date, :slot)
   end
 end

@@ -9,6 +9,8 @@
     <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'] %>
   <% end %>
 
+  <%= f.input :state, as: :hidden, input_html: { value: 'new' } %>
+
   <%= f.actions %>
 <% end %>
 
