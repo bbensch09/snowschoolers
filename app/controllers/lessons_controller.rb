@@ -90,7 +90,7 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @lesson.update(state: 'canceled')
     send_cancellation_email_to_instructor
-    flash[:notice] = 'Your lesson has been cancelled.'
+    flash[:notice] = 'Your lesson has been canceled.'
     redirect_to root_path
   end
 

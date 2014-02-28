@@ -21,6 +21,6 @@ class LessonMailer < ActionMailer::Base
 
   def send_cancellation_email_to_instructor(lesson)
     @lesson = lesson
-    mail(to: @lesson.instructor.email, subject: 'One of your Snow Schoolers lessons has been cancelled')
+    mail(to: @lesson.instructor.email, subject: 'One of your Snow Schoolers lessons has been canceled')
   end
 end
