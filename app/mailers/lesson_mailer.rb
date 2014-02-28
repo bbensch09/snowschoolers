@@ -9,7 +9,7 @@ class LessonMailer < ActionMailer::Base
 
   def send_lesson_confirmation(lesson)
     @lesson = lesson
-    mail(to: @lesson.student.email, subject: 'Your Snow Schoolers lesson has been confirmed')
+    mail(to: @lesson.requester.email, subject: 'Your Snow Schoolers lesson has been confirmed')
   end
 
   def send_lesson_update_notice_to_instructor(original_lesson, updated_lesson, changed_attributes)

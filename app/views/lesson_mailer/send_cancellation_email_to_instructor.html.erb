@@ -6,12 +6,11 @@
   <body>
     <h1>Lesson Cancellation Notice</h1>
     <p>
-      We're sorry, but one of your students has cancelled
-      his/her lesson. Here are the lesson details, for your
-      reference:
+      We're sorry, but one of your lessons has been canceled.
+      Here are the lesson details, for your reference:
     </p>
     <ul>
-      <li>Requester: <%= @lesson.student.name %></li>
+      <li>Requester: <%= @lesson.requester.name %></li>
       <li>Total students: <%= @lesson.student_count %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>

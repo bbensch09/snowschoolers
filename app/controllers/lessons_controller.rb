@@ -65,7 +65,7 @@ class LessonsController < ApplicationController
 
   def create_lesson_and_redirect
     @lesson = Lesson.new(lesson_params)
-    @lesson.student = current_user
+    @lesson.requester = current_user
     @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid?
     @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
@@ -95,7 +95,7 @@ class LessonsController < ApplicationController
   end
 
   def check_user_permissions
-    unless current_user && (current_user == @lesson.student || current_user.instructor?)
+    unless current_user && (current_user == @lesson.requester || current_user.instructor?)
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end 
@@ -133,7 +133,7 @@ class LessonsController < ApplicationController
   def remove_lesson_instructor_and_redirect
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = nil
-    @lesson.update(state: 'pending student')
+    @lesson.update(state: 'pending requester')
     redirect_to @lesson
   end
 

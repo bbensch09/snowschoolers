@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def lesson_times
-    Lesson.find_lesson_times_by_student(self)
+    Lesson.find_lesson_times_by_requester(self)
   end
 
   # Facebook OAuth
