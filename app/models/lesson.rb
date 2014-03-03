@@ -40,8 +40,21 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.booked_instructors(lesson_time)
-    booked_lessons = self.where('lesson_time_id = ? AND instructor_id is not null', lesson_time.id)
-    booked_lessons.map { |lesson| User.find(lesson.instructor_id) }
+    booked_lessons = lesson_time.slot == 'Full Day' ? self.find_all_booked_lessons_in_day(lesson_time) : self.find_booked_lessons(lesson_time)
+    booked_lessons.any? ? booked_lessons.map { |lesson| User.find(lesson.instructor_id) } : []
+  end
+
+  def self.find_booked_lessons(lesson_time)
+    self.where('lesson_time_id = ? AND instructor_id is not null', lesson_time.id)
+  end
+
+  def self.find_all_booked_lessons_in_day(full_day_lesson_time)
+    morning_lesson_time = LessonTime.find_morning_slot(lesson_time.date)
+    afternoon_lesson_time = LessonTime.find_afternoon_slot(lesson_time.date)
+    full_day_booked_lessons = self.find_booked_lessons(full_day_lesson_time)
+    morning_booked_lessons = self.find_booked_lessons(morning_lesson_time)
+    afternoon_booked_lessons = self.find_booked_lessons(afternoon_lesson_time)
+    [full_day_booked_lessons, morning_booked_lessons, afternoon_booked_lessons].flatten
   end
 
   private

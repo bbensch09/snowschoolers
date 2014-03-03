@@ -6,7 +6,7 @@
 
   <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
     <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
-    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'] %>
+    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'] %>
   <% end %>
 
   <%= f.input :state, as: :hidden, input_html: { value: 'new' } %>

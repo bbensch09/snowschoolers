@@ -6,10 +6,10 @@
 
   <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
     <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
-    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'] %>
+    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'] %>
   <% end %>
 
-  <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3]] %>
+  <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
   <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %> 
 
   <%= f.input :student_count, as: :select, collection: [1, 2, 3, 4, 5, 6] %>
