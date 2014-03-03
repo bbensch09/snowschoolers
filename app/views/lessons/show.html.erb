@@ -1,5 +1,7 @@
 <p>Date: <%= @lesson.date %></p>
 <p>Slot: <%= @lesson.slot %></p>
+<p>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></p>
+<p>Start Time: <%= @lesson.start_time %></p>
 <p>Location: <%= @lesson.location %></p>
 <p>Requester: <%= @lesson.requester.name %></p>
 <p>Total students: <%= @lesson.student_count %></p>

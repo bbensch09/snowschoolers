@@ -74,9 +74,9 @@ class LessonsController < ApplicationController
   def update_lesson_and_redirect
     @lesson = Lesson.find(params[:id])
     @original_lesson = @lesson.dup
-    @lesson.update(lesson_params)
     @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    
+    @lesson.update(lesson_params)
+
     if @lesson_time.valid?
       send_lesson_update_notice_to_instructor if @lesson.valid?
     else
@@ -145,7 +145,8 @@ class LessonsController < ApplicationController
   end
 
   def lesson_params
-    params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives)
+    params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration,
+      :start_time)
   end
 
   def lesson_time_params
