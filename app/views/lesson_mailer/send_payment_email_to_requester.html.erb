@@ -19,6 +19,12 @@
       <li>Location: <%= @lesson.location %></li>
       <li>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></li>
       <li>Objectives: <%= @lesson.objectives %></li>
+      <li>Actual Start Time: <%= @lesson.actual_start_time %></li>
+      <li>Actual End Time: <%= @lesson.actual_end_time %></li>
+      <li>Actual Duration: <%= "#{@lesson.actual_duration} hours" %></li>
     </ul>
+    <p>
+      <%= lesson_url(@lesson) %>
+    </p>
   </body>
 </html>

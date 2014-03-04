@@ -1,11 +1,11 @@
 <%= render partial: 'lesson_details' %>
 
-<% if @lesson.unconfirmed? %>
-  <%= render partial: 'lesson_actions_unconfirmed' %>
+<% if @lesson.active? %>
+  <%= render partial: 'lesson_actions_active' %>
 <% end %>
 
-<% if @lesson.confirmed? %>
-  <%= render partial: 'lesson_actions_confirmed' %>
+<% if @lesson.finalizing? %>
+  <%= render partial: 'lesson_actions_finalizing' %>
 <% end %>
 
 <% if @lesson.canceled? %>

@@ -8,14 +8,14 @@
     <p>Original Lesson:</p>
     <ul>
       <li>Requester: <%= @original_lesson.requester.name %></li>
-      <li>Total students: <%= @lesson.student_count %></li>
-      <li>Date: <%= @lesson.date %></li>
-      <li>Slot: <%= @lesson.slot %></li>
-      <li>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></li>
-      <li>Start Time: <%= @lesson.start_time %></li>
-      <li>Location: <%= @lesson.location %></li>
-      <li>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></li>
-      <li>Objectives: <%= @lesson.objectives %></li>
+      <li>Total students: <%= @original_lesson.student_count %></li>
+      <li>Date: <%= @original_lesson.date %></li>
+      <li>Slot: <%= @original_lesson.slot %></li>
+      <li>Duration: <%= "#{@original_lesson.duration} hours" if @original_lesson.duration %></li>
+      <li>Start Time: <%= @original_lesson.start_time %></li>
+      <li>Location: <%= @original_lesson.location %></li>
+      <li>Gear: <%= @original_lesson.gear? ? 'Yes' : 'No' %></li>
+      <li>Objectives: <%= @original_lesson.objectives %></li>
     </ul>
     <p>Changes:</p>
     <ul>

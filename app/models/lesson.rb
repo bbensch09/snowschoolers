@@ -21,9 +21,9 @@ class Lesson < ActiveRecord::Base
     lesson_time.slot
   end
 
-  def unconfirmed?
-    unconfirmed_states = ['new', 'booked', 'pending instructor', 'pending requester']
-    unconfirmed_states.include?(state)
+  def active?
+    active_states = ['new', 'booked', 'confirmed', 'pending instructor', 'pending requester']
+    active_states.include?(state)
   end
 
   def canceled?
@@ -38,8 +38,8 @@ class Lesson < ActiveRecord::Base
     state == 'pending requester'
   end
 
-  def confirmed?
-    state == 'confirmed'
+  def finalizing?
+    state == 'finalizing'
   end
 
   def waiting_for_payment?
@@ -64,11 +64,11 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.find_all_booked_lessons_in_day(full_day_lesson_time)
-    morning_lesson_time = LessonTime.find_morning_slot(lesson_time.date)
-    afternoon_lesson_time = LessonTime.find_afternoon_slot(lesson_time.date)
+    morning_lesson_time = LessonTime.find_morning_slot(full_day_lesson_time.date)
+    afternoon_lesson_time = LessonTime.find_afternoon_slot(full_day_lesson_time.date)
     full_day_booked_lessons = self.find_booked_lessons(full_day_lesson_time)
-    morning_booked_lessons = self.find_booked_lessons(morning_lesson_time)
-    afternoon_booked_lessons = self.find_booked_lessons(afternoon_lesson_time)
+    morning_booked_lessons = self.find_booked_lessons(morning_lesson_time) if morning_lesson_time
+    afternoon_booked_lessons = self.find_booked_lessons(afternoon_lesson_time) if afternoon_lesson_time
     [full_day_booked_lessons, morning_booked_lessons, afternoon_booked_lessons].flatten
   end
 
