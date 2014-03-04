@@ -1,39 +1,10 @@
-<p>Date: <%= @lesson.date %></p>
-<p>Slot: <%= @lesson.slot %></p>
-<p>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></p>
-<p>Start Time: <%= @lesson.start_time %></p>
-<p>Location: <%= @lesson.location %></p>
-<p>Requester: <%= @lesson.requester.name %></p>
-<p>Total students: <%= @lesson.student_count %></p>
-<p>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></p>
-<p>Objectives: <%= @lesson.objectives %></p>
+<%= render partial: 'lesson_details' %>
 
-<% if @lesson.instructor %>
-  <p>Instructor: <%= @lesson.instructor.name %></p>
-<% else %>
-  <% if @lesson.pending_requester? %>
-    <p>No instructors available for this date and time. Please edit or cancel.</p>
-  <% else %>
-    <p>No instructor assigned yet.</p>
-  <% end %>
+<% if @lesson.unconfirmed? %>
+  <%= render partial: 'lesson_actions_unconfirmed' %>
 <% end %>
 
-<% if @lesson.active? %>
-  <% if current_user.instructor? && @lesson.instructor.nil? %>
-    <%= button_to "Take It", set_instructor_path, method: :put %>
-  <% end %>
 
-  <% if current_user == @lesson.instructor %>
-    <% if @lesson.pending_instructor? %>
-      <%= button_to "Confirm Updates", set_instructor_path, method: :put %>
-    <% end %>
-    <%= button_to "Drop It", remove_instructor_path, method: :put %>
-  <% end %>
-
-  <% if current_user == @lesson.requester %>
-    <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
-    <%= link_to 'Cancel Lesson', @lesson, method: :delete %>
-  <% end %>
-<% else %>
+<% if @lesson.canceled? %>
   <p>Lesson has been canceled.</p>
 <% end %>

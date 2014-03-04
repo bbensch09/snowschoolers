@@ -94,11 +94,33 @@ class LessonsController < ApplicationController
     redirect_to root_path
   end
 
-  def check_user_permissions
-    unless current_user && (current_user == @lesson.requester || current_user.instructor?)
-      flash[:alert] = "You do not have access to this page."
-      redirect_to root_path
-    end 
+  def set_lesson_instructor_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.instructor = current_user
+    @lesson.update(state: 'confirmed')
+    LessonMailer.send_lesson_confirmation(@lesson).deliver
+    redirect_to @lesson
+  end
+
+  def remove_lesson_instructor_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.instructor = nil
+    @available_instructors = @lesson.available_instructors.any?
+    @lesson.update(state: @available_instructors ? 'new' : 'pending requester')
+    send_instructor_cancellation_emails
+    redirect_to @lesson
+  end
+
+
+  def send_cancellation_email_to_instructor
+    if @lesson.instructor.present?
+      LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver
+    end
+  end
+
+  def send_instructor_cancellation_emails
+    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @available_instructors
+    LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @available_instructors).deliver
   end
 
   def send_lesson_update_notice_to_instructor
@@ -116,32 +138,11 @@ class LessonsController < ApplicationController
     changed_attributes.reject { |attribute, change| attribute == 'updated_at' || attribute == 'id' }
   end
 
-  def send_cancellation_email_to_instructor
-    if @lesson.instructor.present?
-      LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver
-    end
-  end
-
-  def set_lesson_instructor_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.instructor = current_user
-    @lesson.update(state: 'confirmed')
-    LessonMailer.send_lesson_confirmation(@lesson).deliver
-    redirect_to @lesson
-  end
-
-  def remove_lesson_instructor_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.instructor = nil
-    send_instructor_cancellation_emails
-    @lesson.update(state: @available_instructors ? 'new' : 'pending requester')
-    redirect_to @lesson
-  end
-
-  def send_instructor_cancellation_emails
-    @available_instructors = @lesson.available_instructors.any?
-    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @available_instructors
-    LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @available_instructors).deliver
+  def check_user_permissions
+    unless current_user && (current_user == @lesson.requester || current_user.instructor?)
+      flash[:alert] = "You do not have access to this page."
+      redirect_to root_path
+    end 
   end
 
   def lesson_params

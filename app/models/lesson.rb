@@ -19,8 +19,13 @@ class Lesson < ActiveRecord::Base
     lesson_time.slot
   end
 
-  def active?
-    state != 'canceled'
+  def unconfirmed?
+    unconfirmed_states = ['new', 'booked', 'pending instructor', 'pending requester']
+    unconfirmed_states.include?(state)
+  end
+
+  def canceled?
+    state == 'canceled'
   end
 
   def pending_instructor?

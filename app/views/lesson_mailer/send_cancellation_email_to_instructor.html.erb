@@ -10,11 +10,15 @@
       Here are the lesson details, for your reference:
     </p>
     <ul>
-      <li>Requester: <%= @lesson.requester.name %></li>
+      <li>Requester: <%= @original_lesson.requester.name %></li>
       <li>Total students: <%= @lesson.student_count %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>
+      <li>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></li>
+      <li>Start Time: <%= @lesson.start_time %></li>
       <li>Location: <%= @lesson.location %></li>
+      <li>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></li>
+      <li>Objectives: <%= @lesson.objectives %></li>
     </ul>
   </body>
 </html>
