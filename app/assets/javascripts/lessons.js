@@ -10,6 +10,8 @@ var LESSON = {
       'six': $('#lesson_duration option:eq(3)')
     };
     LESSON._startTime = $('#timepicker');
+    LESSON._actualStartTime = $('#start-timepicker');
+    LESSON._actualEndTime = $('#end-timepicker');
 
     // set datepicker
     LESSON.setDatepicker();
@@ -22,10 +24,11 @@ var LESSON = {
     LESSON.toggleStartTime();
     LESSON._duration.change(LESSON.toggleStartTime);
 
-    // configure and update timepicker
-    LESSON.setTimepicker();
-    LESSON._slot.change(LESSON.updateTimepicker);
-    LESSON._duration.change(LESSON.updateTimepicker);
+    // configure and update timepickers
+    LESSON.setTimepickers();
+    LESSON._slot.change(LESSON.updateRequesterTimepicker);
+    LESSON._duration.change(LESSON.updateRequesterTimepicker);
+    LESSON._actualStartTime.change(LESSON.updateInstructorTimepickers);
   },
 
   setDatepicker: function() { LESSON._date.datepicker({ minDate: 0, dateFormat: 'yy-mm-dd' }); },
@@ -45,12 +48,15 @@ var LESSON = {
     } else { LESSON.clearAndDisable(LESSON._startTime); }
   },
 
-  setTimepicker: function() {
+  setTimepickers: function() {
     LESSON._startTime.timepicker({ 'step': 15 });
-    LESSON.configureTimepicker();
+    LESSON.configureRequesterTimepicker();
+    LESSON.configureConfirmTimepickers();
   },
 
-  updateTimepicker: function() { LESSON.configureTimepicker(true); },
+  updateRequesterTimepicker: function() { LESSON.configureRequesterTimepicker(true); },
+
+  updateInstructorTimepickers: function() { LESSON.configureConfirmTimepickers(); },
 
   // private methods
 
@@ -98,7 +104,7 @@ var LESSON = {
     LESSON[fullDayStatus](LESSON._durations.six);
   },
 
-  configureTimepicker: function(u) {
+  configureRequesterTimepicker: function(u) {
     var updating = typeof u !== 'undefined' ? u : false;
 
     if (LESSON.slotValid() && LESSON.durationValid()) {
@@ -139,6 +145,25 @@ var LESSON = {
   updateMinAndMaxTime: function() {
     LESSON._startTime.timepicker('option', 'minTime', LESSON.minTime);
     LESSON._startTime.timepicker('option', 'maxTime', LESSON.maxTime);
+  },
+
+  configureConfirmTimepickers: function() {
+    LESSON.initializeConfirmTimepickers();
+    LESSON.updateActualEndTimepicker();
+  },
+
+  initializeConfirmTimepickers: function() {
+    LESSON._actualStartTime.timepicker({ 'minTime': '9:00am', 'maxTime': '2:30pm', 'step': 15 });
+    LESSON._actualEndTime.timepicker({ 'minTime': '11:00am', 'maxTime': '4:30pm', 'step': 15 });
+    LESSON.disable(LESSON._actualEndTime);
+  },
+
+  updateActualEndTimepicker: function() {
+    var actualStartTime = LESSON._actualStartTime.val();
+    if (actualStartTime !== null) {
+      LESSON._actualEndTime.timepicker('option', 'minTime', actualStartTime);
+      LESSON.enable(LESSON._actualEndTime);
+    }
   }
 };
 

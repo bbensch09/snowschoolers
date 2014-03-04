@@ -29,4 +29,9 @@ class LessonMailer < ActionMailer::Base
     @available_instructors = available_instructors    
     mail(to: @lesson.requester.email, subject: 'Changes to your upcoming Snow Schoolers lesson')    
   end
+
+  def send_payment_email_to_requester(lesson)
+    @lesson = lesson
+    mail(to: @lesson.requester.email, subject: 'Please complete your Snow Schoolers lesson payment')
+  end
 end

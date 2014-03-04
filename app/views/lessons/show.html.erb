@@ -4,6 +4,9 @@
   <%= render partial: 'lesson_actions_unconfirmed' %>
 <% end %>
 
+<% if @lesson.confirmed? %>
+  <%= render partial: 'lesson_actions_confirmed' %>
+<% end %>
 
 <% if @lesson.canceled? %>
   <p>Lesson has been canceled.</p>

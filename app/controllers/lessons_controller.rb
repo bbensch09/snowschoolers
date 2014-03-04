@@ -47,6 +47,10 @@ class LessonsController < ApplicationController
     remove_lesson_instructor_and_redirect
   end
 
+  def confirm_lesson_time
+    confirm_lesson_time_and_redirect
+  end
+
   private
 
   def save_lesson_params_and_redirect
@@ -111,6 +115,13 @@ class LessonsController < ApplicationController
     redirect_to @lesson
   end
 
+  def confirm_lesson_time_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.update(lesson_params.merge(state: 'waiting for payment'))
+    @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
+    LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    respond_with @lesson, action: :show
+  end
 
   def send_cancellation_email_to_instructor
     if @lesson.instructor.present?
@@ -147,7 +158,7 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration,
-      :start_time)
+      :start_time, :actual_start_time, :actual_end_time)
   end
 
   def lesson_time_params

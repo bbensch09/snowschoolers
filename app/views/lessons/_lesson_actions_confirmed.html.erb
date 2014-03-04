@@ -1,0 +1,9 @@
+<% if current_user == @lesson.instructor %>
+  <%= semantic_form_for @lesson, url: confirm_lesson_time_path do |f| %>
+    <%= f.input :actual_start_time, as: :string, input_html: { id: 'start-timepicker' } %>
+    <%= f.input :actual_end_time, as: :string, input_html: { id: 'end-timepicker' } %>
+    <%= f.actions %>
+  <% end %>
+<% else %>
+  Waiting for instructor to confirm lesson start and end times.
+<% end %>

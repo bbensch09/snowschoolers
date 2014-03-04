@@ -6,10 +6,12 @@ class Lesson < ActiveRecord::Base
   validates :activity, :location, :lesson_time, presence: true
   validates :student_count, :objectives, :duration, :start_time, presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
+  validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available, on: :create
   validate :requester_must_not_be_instructor, on: :create
 
   after_create :send_lesson_request_to_instructors
+  before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
     lesson_time.date
@@ -34,6 +36,14 @@ class Lesson < ActiveRecord::Base
 
   def pending_requester?
     state == 'pending requester'
+  end
+
+  def confirmed?
+    state == 'confirmed'
+  end
+
+  def waiting_for_payment?
+    state == 'waiting for payment'
   end
 
   def available_instructors
@@ -74,5 +84,15 @@ class Lesson < ActiveRecord::Base
 
   def send_lesson_request_to_instructors
     LessonMailer.send_lesson_request_to_instructors(self).deliver
+  end
+
+  def calculate_actual_lesson_duration
+    start_time = Time.parse(actual_start_time)
+    end_time = Time.parse(actual_end_time)
+    self.actual_duration = (end_time - start_time)/3600
+  end
+
+  def just_finalized?
+    waiting_for_payment?
   end
 end
