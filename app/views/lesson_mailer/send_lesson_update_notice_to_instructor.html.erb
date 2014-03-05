@@ -20,7 +20,11 @@
     <p>Changes:</p>
     <ul>
       <% @changed_attributes.each do |attribute, change| %>
-        <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %></li>
+        <% if attribute == 'duration' %>
+          <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %> hours</li>
+        <% else %>
+          <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %></li>
+        <% end %>
       <% end %>
     </ul>
     <p>
