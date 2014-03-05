@@ -50,6 +50,17 @@ class Lesson < ActiveRecord::Base
     User.instructors - Lesson.booked_instructors(lesson_time)
   end
 
+  def available_instructors?
+    available_instructors.any?
+  end
+
+  def get_changed_attributes(original_lesson)
+    lesson_changes = self.previous_changes
+    lesson_time_changes = self.lesson_time.attributes.diff(original_lesson.lesson_time.attributes)
+    changed_attributes = lesson_changes.merge(lesson_time_changes)
+    changed_attributes.reject { |attribute, change| ['updated_at', 'id', 'state', 'lesson_time_id'].include?(attribute) }
+  end
+
   def self.find_lesson_times_by_requester(user)
     self.where('requester_id = ?', user.id).map { |lesson| lesson.lesson_time }
   end

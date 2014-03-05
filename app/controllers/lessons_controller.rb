@@ -27,7 +27,18 @@ class LessonsController < ApplicationController
   end
 
   def update
-    update_lesson_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @original_lesson = @lesson.dup
+    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    @lesson.update(lesson_params)
+
+    if @lesson_time.valid?
+      send_lesson_update_notice_to_instructor if @lesson.valid?
+    else
+      @lesson.errors.add(:lesson_time, 'invalid')
+    end
+    
+    respond_with @lesson
   end
 
   def show
@@ -36,19 +47,35 @@ class LessonsController < ApplicationController
   end
 
   def destroy
-    cancel_lesson_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.update(state: 'canceled')
+    send_cancellation_email_to_instructor
+    flash[:notice] = 'Your lesson has been canceled.'
+    redirect_to root_path
   end
 
   def set_instructor
-    set_lesson_instructor_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.instructor = current_user
+    @lesson.update(state: 'confirmed')
+    LessonMailer.send_lesson_confirmation(@lesson).deliver
+    redirect_to @lesson
   end
 
   def remove_instructor
-    remove_lesson_instructor_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.instructor = nil
+    @lesson.update(state: @lesson.available_instructors? ? 'new' : 'pending requester')
+    send_instructor_cancellation_emails
+    redirect_to @lesson
   end
 
   def confirm_lesson_time
-    confirm_lesson_time_and_redirect
+    @lesson = Lesson.find(params[:id])
+    @lesson.update(lesson_params.merge(state: 'waiting for payment'))
+    @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
+    LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    respond_with @lesson, action: :show
   end
 
   private
@@ -75,54 +102,6 @@ class LessonsController < ApplicationController
     @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
   end
 
-  def update_lesson_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @original_lesson = @lesson.dup
-    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.update(lesson_params)
-
-    if @lesson_time.valid?
-      send_lesson_update_notice_to_instructor if @lesson.valid?
-    else
-      @lesson.errors.add(:lesson_time, 'invalid')
-    end
-    
-    respond_with @lesson
-  end
-
-  def cancel_lesson_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.update(state: 'canceled')
-    send_cancellation_email_to_instructor
-    flash[:notice] = 'Your lesson has been canceled.'
-    redirect_to root_path
-  end
-
-  def set_lesson_instructor_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.instructor = current_user
-    @lesson.update(state: 'confirmed')
-    LessonMailer.send_lesson_confirmation(@lesson).deliver
-    redirect_to @lesson
-  end
-
-  def remove_lesson_instructor_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.instructor = nil
-    @available_instructors = @lesson.available_instructors.any?
-    @lesson.update(state: @available_instructors ? 'new' : 'pending requester')
-    send_instructor_cancellation_emails
-    redirect_to @lesson
-  end
-
-  def confirm_lesson_time_and_redirect
-    @lesson = Lesson.find(params[:id])
-    @lesson.update(lesson_params.merge(state: 'waiting for payment'))
-    @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
-    LessonMailer.send_payment_email_to_requester(@lesson).deliver
-    respond_with @lesson, action: :show
-  end
-
   def send_cancellation_email_to_instructor
     if @lesson.instructor.present?
       LessonMailer.send_cancellation_email_to_instructor(@lesson).deliver
@@ -130,23 +109,16 @@ class LessonsController < ApplicationController
   end
 
   def send_instructor_cancellation_emails
-    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @available_instructors
-    LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @available_instructors).deliver
+    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @lesson.available_instructors?
+    LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @lesson.available_instructors?).deliver
   end
 
   def send_lesson_update_notice_to_instructor
     if @lesson.instructor.present?
-      changed_attributes = get_changed_attributes
+      changed_attributes = @lesson.get_changed_attributes(@original_lesson)
       return unless changed_attributes.any?
       LessonMailer.send_lesson_update_notice_to_instructor(@original_lesson, @lesson, changed_attributes).deliver
     end
-  end
-
-  def get_changed_attributes
-    lesson_changes = @lesson.previous_changes
-    lesson_time_changes = @lesson_time.attributes.diff(@original_lesson.lesson_time.attributes)
-    changed_attributes = lesson_changes.merge(lesson_time_changes)
-    changed_attributes.reject { |attribute, change| attribute == 'updated_at' || attribute == 'id' }
   end
 
   def check_user_permissions
