@@ -30,14 +30,15 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @original_lesson = @lesson.dup
     @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.update(lesson_params)
 
-    if @lesson_time.valid?
+    if @lesson.available_instructors?
+      @lesson.update(lesson_params) if @lesson_time.valid?
       send_lesson_update_notice_to_instructor if @lesson.valid?
     else
-      @lesson.errors.add(:lesson_time, 'invalid')
+      @lesson.errors.add(:instructor, 'not available')
     end
-    
+
+    @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid? 
     respond_with @lesson
   end
 
@@ -117,7 +118,14 @@ class LessonsController < ApplicationController
     if @lesson.instructor.present?
       changed_attributes = @lesson.get_changed_attributes(@original_lesson)
       return unless changed_attributes.any?
-      LessonMailer.send_lesson_update_notice_to_instructor(@original_lesson, @lesson, changed_attributes).deliver
+
+      if @lesson.available_instructors.include?(@lesson.instructor)
+        LessonMailer.send_lesson_update_notice_to_instructor(@original_lesson, @lesson, changed_attributes).deliver
+      else
+        @lesson.instructor = nil
+        @lesson.update(state: @lesson.available_instructors? ? 'new' : 'pending requester')
+        send_instructor_cancellation_emails
+      end
     end
   end
 
