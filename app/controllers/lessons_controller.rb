@@ -30,6 +30,7 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @original_lesson = @lesson.dup
     @lesson.assign_attributes(lesson_params)
+    @lesson.previous_experiences = format_previous_experiences
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.save ? send_lesson_update_notice_to_instructor : (@state = params[:lesson][:state])
     respond_with @lesson
@@ -126,6 +127,11 @@ class LessonsController < ApplicationController
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end 
+  end
+
+  def format_previous_experiences
+    previous_experience_ids = params[:lesson][:previous_experience_ids].reject(&:blank?)
+    previous_experience_ids.map { |id| PreviousExperience.find(id) }
   end
 
   def lesson_params

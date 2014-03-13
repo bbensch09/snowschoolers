@@ -2,9 +2,11 @@ class Lesson < ActiveRecord::Base
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
   belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
   belongs_to :lesson_time
+  has_and_belongs_to_many :previous_experiences
 
   validates :activity, :location, :lesson_time, presence: true
-  validates :student_count, :objectives, :duration, :start_time, :experience_level, presence: true, on: :update
+  validates :student_count, :objectives, :duration, :start_time, :experience_level, :previous_experiences, 
+            presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available
