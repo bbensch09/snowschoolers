@@ -1,4 +1,4 @@
-class AddLessonTimesTable < ActiveRecord::Migration
+class CreateLessonTimesTable < ActiveRecord::Migration
   def change
     create_table :lesson_times do |t|
       t.date :date
