@@ -7,8 +7,9 @@ class Lesson < ActiveRecord::Base
   validates :student_count, :objectives, :duration, :start_time, :experience_level, presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
-  validate :instructors_must_be_available, on: :create
+  validate :instructors_must_be_available
   validate :requester_must_not_be_instructor, on: :create
+  validate :lesson_time_must_be_valid
 
   after_create :send_lesson_request_to_instructors
   before_save :calculate_actual_lesson_duration, if: :just_finalized?
@@ -86,11 +87,15 @@ class Lesson < ActiveRecord::Base
   private
 
   def instructors_must_be_available
-    errors.add(:instructor, "not available") unless available_instructors.any?
+    errors.add(:instructor, "not available") unless instructor.nil? && available_instructors.any?
   end
 
   def requester_must_not_be_instructor
     errors.add(:instructor, "cannot request a lesson") if self.requester.instructor?
+  end
+
+  def lesson_time_must_be_valid
+    errors.add(:lesson_time, "invalid") unless lesson_time.valid?
   end
 
   def send_lesson_request_to_instructors

@@ -29,17 +29,9 @@ class LessonsController < ApplicationController
   def update
     @lesson = Lesson.find(params[:id])
     @original_lesson = @lesson.dup
-    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-
-    if @lesson.available_instructors?
-      @lesson.update(lesson_params) if @lesson_time.valid?
-      send_lesson_update_notice_to_instructor if @lesson.valid?
-    else
-      @lesson.errors.add(:instructor, 'not available')
-    end
-
-    @state = params[:lesson][:state]
-    @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid? 
+    @lesson.assign_attributes(lesson_params)
+    @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    @lesson.save ? send_lesson_update_notice_to_instructor : (@state = params[:lesson][:state])
     respond_with @lesson
   end
 
@@ -99,8 +91,7 @@ class LessonsController < ApplicationController
   def create_lesson_and_redirect
     @lesson = Lesson.new(lesson_params)
     @lesson.requester = current_user
-    @lesson_time = @lesson.lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid?
+    @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.save ? (redirect_to complete_lesson_path(@lesson)) : (render :new)
   end
 
