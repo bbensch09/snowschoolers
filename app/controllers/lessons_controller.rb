@@ -38,6 +38,7 @@ class LessonsController < ApplicationController
       @lesson.errors.add(:instructor, 'not available')
     end
 
+    @state = params[:lesson][:state]
     @lesson.errors.add(:lesson_time, 'invalid') unless @lesson_time.valid? 
     respond_with @lesson
   end
