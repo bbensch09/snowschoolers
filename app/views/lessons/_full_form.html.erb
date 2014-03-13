@@ -10,12 +10,11 @@
   <% end %>
 
   <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
-  <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %> 
-
+  <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %>
   <%= f.input :student_count, as: :select, collection: [1, 2, 3, 4, 5, 6] %>
   <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
   <%= f.input :objectives %>
-
+  <%= f.input :experience_level, as: :select, collection: [['First time on the mountain', 0], ['Beginner (~skier type I)', 1], ['Intermediate (~skier type II)', 2], ['Advanced (~skier type III)', 3]] %>
   <%= f.input :state, as: :hidden, input_html: { value: @state } %>
 
   <%= f.actions %>

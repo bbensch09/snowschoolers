@@ -4,7 +4,7 @@ class Lesson < ActiveRecord::Base
   belongs_to :lesson_time
 
   validates :activity, :location, :lesson_time, presence: true
-  validates :student_count, :objectives, :duration, :start_time, presence: true, on: :update
+  validates :student_count, :objectives, :duration, :start_time, :experience_level, presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available, on: :create

@@ -139,7 +139,7 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration,
-      :start_time, :actual_start_time, :actual_end_time)
+      :start_time, :actual_start_time, :actual_end_time, :experience_level)
   end
 
   def lesson_time_params

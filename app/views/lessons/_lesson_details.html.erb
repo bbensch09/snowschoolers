@@ -6,6 +6,7 @@
 <p>Requester: <%= @lesson.requester.name %></p>
 <p>Total students: <%= @lesson.student_count %></p>
 <p>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></p>
+<p>Experience level: <%= @lesson.experience_level.to_s %></p>
 <p>Objectives: <%= @lesson.objectives %></p>
 
 <% if @lesson.instructor %>
