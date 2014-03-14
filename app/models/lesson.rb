@@ -10,6 +10,7 @@ class Lesson < ActiveRecord::Base
   validates :objectives, :duration, :start_time, :experience_level, :previous_experiences, 
             presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
+  validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available
   validate :requester_must_not_be_instructor, on: :create
@@ -30,6 +31,10 @@ class Lesson < ActiveRecord::Base
   def active?
     active_states = ['new', 'booked', 'confirmed', 'pending instructor', 'pending requester']
     active_states.include?(state)
+  end
+
+  def new?
+    state == 'new'
   end
 
   def canceled?

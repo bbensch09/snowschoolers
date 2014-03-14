@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140314054318) do
+ActiveRecord::Schema.define(version: 20140314061619) do
 
   create_table "lesson_times", force: true do |t|
     t.date   "date"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140314054318) do
     t.string   "actual_end_time"
     t.float    "actual_duration"
     t.integer  "experience_level"
+    t.boolean  "terms_accepted"
   end
 
   create_table "lessons_previous_experiences", id: false, force: true do |t|

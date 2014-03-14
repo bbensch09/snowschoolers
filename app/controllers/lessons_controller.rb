@@ -32,7 +32,7 @@ class LessonsController < ApplicationController
     @lesson.assign_attributes(lesson_params)
     @lesson.previous_experiences = format_previous_experiences
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.save ? send_lesson_update_notice_to_instructor : (@state = params[:lesson][:state])
+    @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
     respond_with @lesson
   end
 
@@ -134,9 +134,14 @@ class LessonsController < ApplicationController
     previous_experience_ids.map { |id| PreviousExperience.find(id) }
   end
 
+  def determine_update_state
+    @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
+    @state = params[:lesson][:state]
+  end
+
   def lesson_params
     params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration,
-      :start_time, :actual_start_time, :actual_end_time, :experience_level, 
+      :start_time, :actual_start_time, :actual_end_time, :experience_level, :terms_accepted,
       students_attributes: [:id, :name, :age_range, :gender, :relationship_to_requester, :_destroy])
   end
 

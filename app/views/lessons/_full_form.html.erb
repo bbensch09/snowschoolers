@@ -11,6 +11,7 @@
 
   <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
   <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %>
+  
   <div id='lesson_students_input'>
     <%= f.semantic_fields_for :students do |student| %>
       <%= render 'student_fields', f: student %>
@@ -20,10 +21,18 @@
     </div>
     <%= f.semantic_errors :students %>
   </div>
+
   <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
   <%= f.input :objectives %>
   <%= f.input :experience_level, as: :select, collection: [['First time on the mountain', 0], ['Beginner (~skier type I)', 1], ['Intermediate (~skier type II)', 2], ['Advanced (~skier type III)', 3]] %>
   <%= f.input :previous_experiences, as: :check_boxes %>
+  
+  <% if @lesson.new? %>
+    <%= f.input :terms_accepted %>
+  <% else %>
+    <%= f.input :terms_accepted, as: :hidden, input_html: { value: true } %>
+  <% end %>
+
   <%= f.input :state, as: :hidden, input_html: { value: @state } %>
 
   <%= f.actions %>
