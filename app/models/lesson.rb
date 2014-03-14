@@ -7,7 +7,7 @@ class Lesson < ActiveRecord::Base
   accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
 
   validates :activity, :location, :lesson_time, presence: true
-  validates :student_count, :objectives, :duration, :start_time, :experience_level, :previous_experiences, 
+  validates :objectives, :duration, :start_time, :experience_level, :previous_experiences, 
             presence: true, on: :update
   validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?

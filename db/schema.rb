@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20140314054318) do
     t.string   "activity"
     t.string   "location"
     t.boolean  "gear"
-    t.integer  "student_count"
     t.text     "objectives"
     t.string   "state"
     t.integer  "duration"

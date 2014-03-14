@@ -11,7 +11,6 @@
 
   <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
   <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %>
-  <%= f.input :student_count, as: :select, collection: [1, 2, 3, 4, 5, 6] %>
   <div id='lesson_students_input'>
     <%= f.semantic_fields_for :students do |student| %>
       <%= render 'student_fields', f: student %>
