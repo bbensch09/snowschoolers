@@ -50,6 +50,7 @@ end
 gem 'devise'
 gem 'formtastic'
 gem 'omniauth-facebook'
+gem 'cocoon', '>= 1.2.0'
 
 # Heroku
 group :production do
