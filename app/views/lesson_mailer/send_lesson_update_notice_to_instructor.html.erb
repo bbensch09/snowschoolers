@@ -8,7 +8,7 @@
     <p>Original Lesson:</p>
     <ul>
       <li>Requester: <%= @original_lesson.requester.name %></li>
-      <li>Total students: <%= @original_lesson.student_count %></li>
+      <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
       <li>Date: <%= @original_lesson.date %></li>
       <li>Slot: <%= @original_lesson.slot %></li>
       <li>Duration: <%= "#{@original_lesson.duration} hours" if @original_lesson.duration %></li>

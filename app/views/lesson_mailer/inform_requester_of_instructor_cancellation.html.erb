@@ -10,7 +10,7 @@
       for the following lesson:
     </p>
     <ul>
-      <li>Total students: <%= @lesson.student_count %></li>
+      <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>
       <li>Location: <%= @lesson.location %></li>

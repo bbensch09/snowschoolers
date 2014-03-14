@@ -12,6 +12,15 @@
   <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
   <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %>
   <%= f.input :student_count, as: :select, collection: [1, 2, 3, 4, 5, 6] %>
+  <div id='lesson_students_input'>
+    <%= f.semantic_fields_for :students do |student| %>
+      <%= render 'student_fields', f: student %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association 'Add Student', f, :students %>
+    </div>
+    <%= f.semantic_errors :students %>
+  </div>
   <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
   <%= f.input :objectives %>
   <%= f.input :experience_level, as: :select, collection: [['First time on the mountain', 0], ['Beginner (~skier type I)', 1], ['Intermediate (~skier type II)', 2], ['Advanced (~skier type III)', 3]] %>

@@ -11,7 +11,7 @@
     </p>
     <ul>
       <li>Requester: <%= @lesson.requester.name %></li>
-      <li>Total students: <%= @lesson.student_count %></li>
+      <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>
       <li>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></li>

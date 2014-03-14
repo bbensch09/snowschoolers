@@ -4,7 +4,7 @@
 <p>Start Time: <%= @lesson.start_time %></p>
 <p>Location: <%= @lesson.location %></p>
 <p>Requester: <%= @lesson.requester.name %></p>
-<p>Total students: <%= @lesson.student_count %></p>
+<p>Students: <%= @lesson.students.map(&:name).join(', ') %></p>
 <p>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></p>
 <p>Experience level: <%= @lesson.experience_level.to_s %></p>
 <p>Previous experience: <%= @lesson.previous_experiences.map(&:name).join(', ') %></p>

@@ -1,0 +1,9 @@
+<div class='nested-fields'>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :age_range, as: :select, collection: ['3-10', '11-20', '21-30', '31-40', '41 and up'] %>
+    <%= f.input :gender, as: :select, collection: ['Male', 'Female'] %>
+    <%= f.input :relationship_to_requester, as: :select, collection: ['Me', 'Child', 'Friend', 'Spouse', 'Other'] %>
+    <%= link_to_remove_association "Remove Student", f %>
+  <% end %>
+</div>

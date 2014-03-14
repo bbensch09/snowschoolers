@@ -3,6 +3,8 @@ class Lesson < ActiveRecord::Base
   belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
   belongs_to :lesson_time
   has_and_belongs_to_many :previous_experiences
+  has_many :students
+  accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
 
   validates :activity, :location, :lesson_time, presence: true
   validates :student_count, :objectives, :duration, :start_time, :experience_level, :previous_experiences, 
@@ -12,6 +14,7 @@ class Lesson < ActiveRecord::Base
   validate :instructors_must_be_available
   validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
+  validate :student_exists, on: :update
 
   after_create :send_lesson_request_to_instructors
   before_save :calculate_actual_lesson_duration, if: :just_finalized?
@@ -98,6 +101,10 @@ class Lesson < ActiveRecord::Base
 
   def lesson_time_must_be_valid
     errors.add(:lesson_time, "invalid") unless lesson_time.valid?
+  end
+
+  def student_exists
+    errors.add(:students, "count must be greater than zero") unless students.any?
   end
 
   def send_lesson_request_to_instructors
