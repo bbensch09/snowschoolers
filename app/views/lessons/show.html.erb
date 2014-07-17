@@ -1,13 +1,32 @@
-<%= render partial: 'lesson_details' %>
+<div id="middle" class="container">
+  <div class="white">
 
-<% if @lesson.active? %>
-  <%= render partial: 'lesson_actions_active' %>
-<% end %>
+    <header class="page-header">
+      <h1>Lesson Details</h1>
+    </header>
 
-<% if @lesson.finalizing? %>
-  <%= render partial: 'lesson_actions_finalizing' %>
-<% end %>
+    <%= render partial: 'lesson_details' %>
 
-<% if @lesson.canceled? %>
-  <p>Lesson has been canceled.</p>
-<% end %>
+    <% if @lesson.active? %>
+      <%= render partial: 'lesson_actions_active' %>
+    <% end %>
+
+    <% if @lesson.finalizing? %>
+      <%= render partial: 'lesson_actions_finalizing' %>
+    <% end %>
+
+    <% if @lesson.canceled? %>
+      <p>Lesson has been canceled.</p>
+    <% end %>
+
+  </div>
+</div>
+
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
+
+<ul id="slider">
+  <li><img src="/assets/demo/slider/snow-less.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER

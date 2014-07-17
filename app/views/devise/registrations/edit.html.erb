@@ -1,37 +1,123 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div id="middle" class="container">
+  <div class="white">
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <header class="page-header">
+      <h1>Edit Profile</h1>
+    </header>
 
-  <div><%= f.label :name %><br />
-  <%= f.text_field :name, :autofocus => true %></div>
+    <!-- UPDATE PROFILE -->
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+      <%= devise_error_messages! %>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Basic <strong>Info</strong></h4>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= f.label :name %><br />
+                <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <span class="remember-box checkbox">
+              <label for="rememberme">
+                <%= f.check_box :instructor %>I'm an instructor
+              </label>
+            </span>
+          </div>
+        </div>
 
-  <div><%= f.check_box :instructor %>
-  <%= f.label 'Instructor?' %></div>
+        <div class="col-md-6">
+          <% if f.object.password_required? %> 
+            <h4>Security <strong>Info</strong></h4>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-6">
+                  <label>New Password</label>
+                  <%= f.password_field :password, class: 'form-control' %>
+                </div>
+                <div class="col-md-6">
+                  <label>New Password Confirmation</label>
+                  <%= f.password_field :password_confirmation, class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-  <% if f.object.password_required? %> 
-    <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, :autocomplete => "off" %></div>
+      <% if f.object.password_required? %> 
+        <div class='row'>
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <label class="font300">Enter current password to confirm changes</label>
+            <div class="input-group">
+              <%= f.password_field :current_password, class: 'form-control' %>
+              <span class="input-group-btn">
+                <%= f.submit "UPDATE", class: 'btn sign-up-btn' %>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class='row'>
+          <div class="col-md-6"></div>
+          <div class="col-md-6"><%= f.submit "UPDATE", class: 'btn sign-up-btn pull-right' %></div>
+        </div>
+      <% end %>
 
-    <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %></div>
+      <div class='row'>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"><%= link_to "Return to previous page", :back, class: 'return-link pull-right' %></div>
+      </div>
+    <% end %>
+    <!-- /UPDATE PROFILE -->
 
-    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password %></div>
-  <% end %>
+    <hr />
 
-  <div><%= f.submit "Update" %></div>
-<% end %>
+    <!-- CALLOUT -->
+    <div class="alert alert-default fade in">
 
-<h3>Cancel my account</h3>
+      <div class="row">
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
+        <div class="col-md-9 col-sm-8"><!-- left text -->
+          <h4 class="nomargin">Cancel <strong>Your Account</strong></h4>
+          <p class="nomargin">
+            We hope you'll give Snow Schoolers another shot at some point in the future!
+          </p>
+        </div><!-- /left text -->
 
-<%= link_to "Back", :back %>
+        
+        <div class="col-md-3 col-sm-4 text-right"><!-- right btn -->
+          <%= link_to "CANCEL ACCOUNT", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: "btn btn-primary btn-lg" %>
+        </div><!-- /right btn -->
+
+      </div>
+
+    </div>
+    <!-- /CALLOUT -->
+
+
+  </div>
+</div>
+
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
+
+<ul id="slider">
+  <li><img src="/assets/demo/slider/chamonix-skiing.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER -->

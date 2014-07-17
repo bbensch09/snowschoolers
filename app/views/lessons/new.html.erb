@@ -1,15 +1,54 @@
-<%= semantic_form_for @lesson do |f| %>
-  <%= f.semantic_errors :instructor %>
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
 
-  <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'] %>
-  <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'] %>
+<ul id="slider">
+  <li>
+    <img src="assets/demo/slider/ski-1.jpg" alt="" />
+    <div class="caption">
 
-  <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
-    <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
-    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'] %>
-  <% end %>
+      <div class="block">
+        <h1>BOOK A LESSON TODAY</h1>
+      </div>
 
-  <%= f.input :state, as: :hidden, input_html: { value: 'new' } %>
+      <div class="block">
+        <p>Some text about why <strong>Snow Schoolers</strong> is awesome and people should book their lessons today!</p>
+      </div>
 
-  <%= f.actions %>
-<% end %>
+      <%= semantic_form_for @lesson do |f| %>
+        <%= f.semantic_errors :instructor %>
+          <div class="block inputs">
+            <p>
+              <div class="col-md-3">
+                <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Lesson Type', label: false %>
+              </div>
+
+              <div class="col-md-3">
+                <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'], include_blank: 'Mountain', label: false %>
+              </div>
+
+              <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
+                <div class="col-md-3">
+                  <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' }, placeholder: 'Date', label: false %>
+                  <span class="search-area-icon"></span>
+                </div>
+
+                <div class="col-md-3">
+                  <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'], include_blank: 'Length', label: false %>
+                </div>
+              <% end %>
+            </p>
+          </div>
+
+        <%= f.input :state, as: :hidden, input_html: { value: 'new' } %>
+
+        <div class="block">
+          <%= f.actions do %>
+            <%= f.action :submit, as: :input, button_html: { class: 'btn btn-info', value: 'Book Lesson' } %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </li>
+  <li><img src="assets/demo/slider/happy.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER -->

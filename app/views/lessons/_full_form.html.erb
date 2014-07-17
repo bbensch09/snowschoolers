@@ -1,39 +1,125 @@
-<%= semantic_form_for @lesson do |f| %>
-  <%= f.semantic_errors :instructor %>
+<div id="middle" class="container">
+  <div class="white">
 
-  <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'] %>
-  <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'] %>
+    <header class="page-header">
+      <h1>Update Your Lesson</h1>
+    </header>
 
-  <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
-    <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' } %>
-    <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'] %>
-  <% end %>
+    <%= semantic_form_for @lesson do |f| %>
+      <%= f.semantic_errors :instructor %>
+      <div class='row'>
+        <div class="col-md-6">
+          <h4>Basic <strong>Info</strong></h4>
+          
+          <div class='row'>
+            <div class="col-md-6">
+              <label>Lesson Type</label>
+              <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Lesson Type', label: false %>
+            </div>
 
-  <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]] %>
-  <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' } %>
-  
-  <div id='lesson_students_input'>
-    <%= f.semantic_fields_for :students do |student| %>
-      <%= render 'student_fields', f: student %>
+            <div class="col-md-6">
+              <label>Mountain</label>
+              <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'], include_blank: 'Mountain', label: false %>
+            </div>
+          </div>
+
+          <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
+            <div class='row'>
+              <div class="col-md-6">
+                <label>Date</label>
+                <%= lt_f.input :date, as: :string, input_html: { id: 'datepicker' }, placeholder: 'Pick a date', label: false %>
+                <span class="search-area-icon"></span>
+              </div>
+
+              <div class="col-md-6">
+                <label>Slot</label>
+                <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'], include_blank: 'Length', label: false %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class='row'>
+            <div class="col-md-4">
+              <label>Duration</label>
+              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]], include_blank: 'Duration', label: false %>
+            </div>
+
+            <div class="col-md-4">
+              <label>Start Time</label>
+              <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' }, placeholder: 'Pick a start time', label: false %>
+            </div>
+
+            <div class="col-md-4">
+              <label>Do you have gear?</label>
+              <%= f.input :gear, as: :select, collection: [['Yes', true], ['No', false]], include_blank: 'Gear', label: false %>
+            </div>
+          </div>
+
+          <h4>Student <strong>Info</strong></h4>
+
+          <div id='lesson_students_input'>
+            <%= f.semantic_fields_for :students do |student| %>
+              <%= render 'student_fields', f: student %>
+            <% end %>
+            <div class='links'>
+              <%= link_to_add_association 'Add Student', f, :students %>
+            </div>
+            <%= f.semantic_errors :students %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4>Objectives <strong> and Experience</strong></h4>
+
+          <div class='col-md-12'>
+            <label>Objectives</label>
+            <%= f.input :objectives, placeholder: 'What do you hope to get out of this lesson?', label: false %>
+          </div>
+
+          <div class='col-md-12'>
+            <label>Experience Level</label>
+            <%= f.input :experience_level, as: :select, collection: [['First time on the mountain', 0], ['Beginner (~skier type I)', 1], ['Intermediate (~skier type II)', 2], ['Advanced (~skier type III)', 3]], include_blank: 'How comfortable are you on the mountain?', label: false %>
+          </div>
+
+          <div class='col-md-12'>
+            <label>Previous Experience</label>
+            <%= f.input :previous_experiences, as: :check_boxes, label: false %>
+          </div>
+        </div>
+      </div>
+
+      <hr class='lesson-break' />
+
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <div class="col-md-9">
+            <span class="remember-box checkbox pull-right">
+              <label for="rememberme">
+                <% if @lesson.new? %>
+                  <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
+                <% else %>
+                  <%= f.input :terms_accepted, as: :hidden, input_html: { value: true } %>
+                <% end %>
+              </label>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <%= f.input :state, as: :hidden, input_html: { value: @state } %>
+            <%= f.submit "UPDATE", class: 'btn sign-up-btn pull-right' %>
+          </div>
+        </div>
+      </div>
     <% end %>
-    <div class='links'>
-      <%= link_to_add_association 'Add Student', f, :students %>
-    </div>
-    <%= f.semantic_errors :students %>
+
   </div>
+</div>
 
-  <%= f.input :gear, as: :select, collection: [['Yes, I have gear', true], ['No, I need gear', false]] %>
-  <%= f.input :objectives %>
-  <%= f.input :experience_level, as: :select, collection: [['First time on the mountain', 0], ['Beginner (~skier type I)', 1], ['Intermediate (~skier type II)', 2], ['Advanced (~skier type III)', 3]] %>
-  <%= f.input :previous_experiences, as: :check_boxes %>
-  
-  <% if @lesson.new? %>
-    <%= f.input :terms_accepted %>
-  <% else %>
-    <%= f.input :terms_accepted, as: :hidden, input_html: { value: true } %>
-  <% end %>
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
 
-  <%= f.input :state, as: :hidden, input_html: { value: @state } %>
-
-  <%= f.actions %>
-<% end %>
+<ul id="slider">
+  <li><img src="/assets/demo/slider/powdery-mountain.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER

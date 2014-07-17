@@ -1,14 +1,4 @@
-<p>Date: <%= @lesson.date %></p>
-<p>Slot: <%= @lesson.slot %></p>
-<p>Duration: <%= "#{@lesson.duration} hours" if @lesson.duration %></p>
-<p>Start Time: <%= @lesson.start_time %></p>
-<p>Location: <%= @lesson.location %></p>
 <p>Requester: <%= @lesson.requester.name %></p>
-<p>Students: <%= @lesson.students.map(&:name).join(', ') %></p>
-<p>Gear: <%= @lesson.gear? ? 'Yes' : 'No' %></p>
-<p>Experience level: <%= @lesson.experience_level.to_s %></p>
-<p>Previous experience: <%= @lesson.previous_experiences.map(&:name).join(', ') %></p>
-<p>Objectives: <%= @lesson.objectives %></p>
 
 <% if @lesson.instructor %>
   <p>Instructor: <%= @lesson.instructor.name %></p>
@@ -19,3 +9,69 @@
     <p>No instructor assigned yet.</p>
   <% end %>
 <% end %>
+
+<div class='row'>
+  <div class="col-md-6">
+    <h4>Basic <strong>Info</strong></h4>
+    
+    <div class='row'>
+      <div class="col-md-6">
+        <label>Lesson Type:</label>
+        <div class='form-control'><%= @lesson.activity %></div>
+      </div>
+
+      <div class="col-md-6">
+        <label>Mountain:</label>
+        <div class='form-control'><%= @lesson.location %></div>
+      </div>
+    </div>
+
+      <div class='row'>
+        <div class="col-md-6">
+          <label>Date:</label>
+          <div class='form-control'><%= @lesson.date %></div>
+        </div>
+
+        <div class="col-md-6">
+          <label>Slot:</label>
+          <div class='form-control'><%= @lesson.slot %></div>
+        </div>
+      </div>
+
+    <div class='row'>
+      <div class="col-md-4">
+        <label>Duration:</label>
+        <div class='form-control'><%= "#{@lesson.duration} hours" if @lesson.duration %></div>
+      </div>
+
+      <div class="col-md-4">
+        <label>Start Time:</label>
+        <div class='form-control'><%= @lesson.start_time %></div>
+      </div>
+
+      <div class="col-md-4">
+        <label>Do you have gear?</label>
+        <div class='form-control'><%= @lesson.gear? ? 'Yes' : 'No' %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <h4>Objectives <strong> and Experience</strong></h4>
+
+    <div class='col-md-12'>
+      <label>Objectives:</label>
+      <div class='form-control'><%= @lesson.objectives %></div>
+    </div>
+
+    <div class='col-md-12'>
+      <label>Experience Level:</label>
+      <div class='form-control'><%= @lesson.experience_level.to_s %></div>
+    </div>
+
+    <div class='col-md-12'>
+      <label>Previous Experience:</label>
+      <div class='form-control'><%= @lesson.previous_experiences.map(&:name).join(', ') %></div>
+    </div>
+  </div>
+</div>

@@ -2,33 +2,132 @@
 <html>
 <head>
   <title>SnowSchoolers</title>
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800" rel="stylesheet" type="text/css" />
   <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "bootstrap/modernizr.min.js" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<nav>
-  <%= link_to 'Home', root_path %>
-  <% if current_user %>
-    <% name = current_user.name.present? ? current_user.name : 'Profile' %>
-    <%= link_to name, edit_user_registration_path %>
-    <%= link_to 'Log Out', destroy_user_session_path %>
-  <% else %>
-    <% if params[:date] && params[:slot] %>
-      <%= link_to 'Sign Up', new_user_registration_path(date: params[:date], slot: params[:slot]) %>
-      <%= link_to 'Log In', new_user_session_path(date: params[:date], slot: params[:slot]) %>
-    <% else %>
-      <%= link_to 'Sign Up', new_user_registration_path %>
-      <%= link_to 'Log In', new_user_session_path %>
-    <% end %>
-  <% end %>
-</nav>
+<!-- HEADER -->
+<header id="header">
+  <div class="container">
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+    <!-- LOGO -->
+    <%= link_to raw("<strong>SNOW</strong><span class='schoolers'>SCHOOLERS</span>"), root_path, class: 'logo' %>
+    <!-- LOGO -->
+
+    <!-- OPTIONS -->
+    <ul id="topOptions">
+      <li><!-- Mobile Menu Button -->
+        <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+          <i class="fa fa-bars"></i>
+        </button>
+      </li>
+    </ul>
+    <!-- /OPTIONS -->
+
+    <div class="navbar-collapse nav-main-collapse collapse pull-right">
+      <nav class="nav-main">
+        <ul class="nav nav-pills nav-main scroll-menu" id="topMain">
+          <% if current_user %>
+            <% name = current_user.name.present? ? current_user.name : 'Profile' %>
+            <li>
+              <%= link_to name, edit_user_registration_path %>
+            </li>
+            <li>
+              <%= link_to 'Logout', destroy_user_session_path %>
+            </li>
+          <% else %>
+            <% if params[:date] && params[:slot] %>
+              <li>
+                <%= link_to 'Login', new_user_session_path(date: params[:date], slot: params[:slot]) %>
+              </li>
+              <li>
+                <%= link_to 'Sign Up', new_user_registration_path(date: params[:date], slot: params[:slot]), class: 'sign-up-btn' %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to 'Login', new_user_session_path %>
+              </li>
+              <li>
+                <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-btn' %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</header>
+<!-- /HEADER -->
+
+<div class='container'>
+  <% if notice %>
+    <p class="alert alert-success"><%= notice %></p>
+  <% end %>
+
+  <% if alert %>
+    <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
+</div>
 
 <%= yield %>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <span id="slideTimer"><!-- fs-slideshow timer line --></span>
+
+  <!-- right menu -->
+  <ul>
+    <li><a href="#">CONTACT</a></li>
+    <li class="sepy">&bull;</li>
+    <li><a href="#" data-toggle="modal" data-target="#socialInlineModal">FOLLOW US</a></li>
+  </ul>
+  <!-- /right menu -->
+
+  <!-- copyright -->
+  <span class="hidden-xs">&copy; SNOW SCHOOLERS, LLC</span>
+  <!-- /copyright -->
+</footer>
+<!-- /FOOTER -->
+
+
+<!-- FOLLOW US -->
+<div class="modal fade bs-example-modal-lg" id="socialInlineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header"><!-- modal header -->
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-hand-o-down"></i> Follow Us</h4>
+      </div><!-- /modal header -->
+
+      <!-- modal body -->
+      <div class="modal-body">
+        <p>Follow us online, join our conversations, engage with our teams around the world!</p>
+        <div class="text-center">
+          <a href="#" class="socialbtn facebook"><i class="fa fa-facebook"></i>Facebook</a>
+          <a href="#" class="socialbtn twitter"><i class="fa fa-twitter"></i>Twitter</a>
+          <a href="#" class="socialbtn google"><i class="fa fa-google-plus"></i>Google Plus</a>
+          <a href="#" class="socialbtn linkedin"><i class="fa fa-linkedin"></i>Linkedin</a>
+          <a href="#" class="socialbtn pinterest"><i class="fa fa-pinterest"></i>Pinterest</a>
+          <a href="#" class="socialbtn flickr"><i class="fa fa-flickr"></i>Flickr</a>
+          <a href="#" class="socialbtn youtube"><i class="fa fa-youtube"></i>Youtube</a>
+          <a href="#" class="socialbtn vimeo"><i class="fa fa-vimeo-square"></i>Vimeo</a>
+          <a href="#" class="socialbtn skype"><i class="fa fa-skype"></i>Skype</a>
+          <a href="#" class="socialbtn rss"><i class="fa fa-rss"></i>Rss</a>
+        </div>
+      </div>
+      <!-- /modal body -->
+
+    </div>
+  </div>
+</div>
+<!-- /FOLLOW US -->
 
 </body>
 </html>

@@ -1,23 +1,127 @@
-<h2>Sign up</h2>
+<div id="middle" class="container">
+  <div class="white">
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+    <header class="page-header">
+      <h1>Sign Up</h1>
+    </header>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+      <div class="row">
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+        <!-- REGISTER -->
+        <div class="col-md-6">
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+          <h4>Create <strong>Account</strong></h4>
 
-  <% if params[:date] && params[:slot] %>
-    <%= f.hidden_field :date, value: params[:date] %>
-    <%= f.hidden_field :slot, value: params[:slot] %>
-  <% end %>
+          <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
 
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <%= f.label :email %><br />
+                  <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-6">
+                  <%= f.label :password %><br />
+                  <%= f.password_field :password, class: 'form-control' %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :password_confirmation %><br />
+                  <%= f.password_field :password_confirmation, class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+            <% if params[:date] && params[:slot] %>
+              <%= f.hidden_field :date, value: params[:date] %>
+              <%= f.hidden_field :slot, value: params[:slot] %>
+            <% end %>
+            <div class="row">
+              <div class="col-md-12">
+                <%= f.submit "Sign up", class: "btn sign-up-btn pull-right push-bottom" %>
+              </div>
+            </div>
+          <% end %>
 
-<%= render "devise/shared/links" %>
+          <div class="facebook-box">
+            <div class="row title">
+              <div class="col-md-12">
+                <div class="text">Sign up with:</div>
+              </div>
+            </div>
+
+            <div class="row button">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <%- resource_class.omniauth_providers.each do |provider| %>
+                  <%= link_to "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: "#{provider.to_s}-login form-control" %><br />
+                <% end -%>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /REGISTER -->
+
+        <!-- WHY? -->
+        <div class="col-md-6">
+
+          <h4>Registration is fast, easy, and free.</h4>
+
+          <p>Once you're registered, you can:</p>
+          <ul class="list-icon check">
+            <li>Book ski or snowboarding lessons.</li>
+            <li>Keep track of your lesson history and performance.</li>
+            <li>Watch video summaries of your past lessons.</li>
+            <li>View your Snow Schoolers information from any computer in the world.</li>
+            <li>Connect with the Snow Schoolers community.</li>
+          </ul>
+
+
+        </div>
+        <!-- /WHY? -->
+
+      </div>
+
+
+    <hr />
+
+    <!-- CALLOUT -->
+    <div class="alert alert-default fade in">
+
+      <div class="row">
+
+        <div class="col-md-9 col-sm-8"><!-- left text -->
+          <h4 class="nomargin">Contact <strong>Customer Support</strong></h4>
+          <p class="nomargin">
+            If you're looking for more help or have a question to ask, please contact us.
+          </p>
+        </div><!-- /left text -->
+
+        
+        <div class="col-md-3 col-sm-4 text-right"><!-- right btn -->
+          <a href="#" class="btn btn-primary btn-lg">CONTACT</a>
+        </div><!-- /right btn -->
+
+      </div>
+
+    </div>
+    <!-- /CALLOUT -->
+
+
+  </div>
+</div>
+
+
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
+
+<ul id="slider">
+  <li><img src="/assets/demo/slider/chamonix-skiing.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER

@@ -1,22 +1,133 @@
-<h2>Sign in</h2>
+<!-- <%= render "devise/shared/links" %> -->
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+<div id="middle" class="container">
+  <div class="white col-md-12">
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+    <header class="page-header">
+      <h1>Log In</h1>
+    </header>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+    <div class="row">
+      
+      <!-- LOGIN -->
+      <div class="col-md-6">
+        <h4>Sign <strong>In</strong></h4>
 
-  <% if params[:date] && params[:slot] %>
-    <%= f.hidden_field :date, value: params[:date] %>
-    <%= f.hidden_field :slot, value: params[:slot] %>
-  <% end %>
+        <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+          <%= devise_error_messages! %>
 
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
 
-<%= render "devise/shared/links" %>
+          <div class="row">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= f.label :password %><br />
+                <%= f.password_field :password, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+
+          <% if params[:date] && params[:slot] %>
+            <%= f.hidden_field :date, value: params[:date] %>
+            <%= f.hidden_field :slot, value: params[:slot] %>
+          <% end %>
+
+          <div class="row">
+            <div class="col-md-6">
+              <span class="remember-box checkbox">
+                <label for="rememberme">
+                  <%= f.check_box :remember_me, id: "rememberme" %>Remember Me
+                </label>
+              </span>
+            </div>
+            <div class="col-md-6">
+              <%= f.submit "Sign in", class: 'btn sign-up-btn pull-right' %>
+            </div>
+          </div>
+        <% end %>
+      
+        <div class="facebook-box">
+          <div class="row title">
+            <div class="col-md-12">
+              <div class="text">Sign in with:</div>
+            </div>
+          </div>
+
+          <div class="row button">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <%- resource_class.omniauth_providers.each do |provider| %>
+                <%= link_to "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: "#{provider.to_s}-login form-control" %><br />
+              <% end -%>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </div>
+      </div>
+      <!-- /LOGIN -->
+
+      <!-- PASSWORD -->
+      <div class="col-md-6 forgot">
+
+        <h4>Forgot <strong>Password</strong>?</h4>
+
+        <!-- password form -->
+        <label class="font300">Type your E-mail Address</label>
+        <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, class: 'input-group new_user' }) do |f| %>
+          <%= devise_error_messages! %>
+          <%= f.email_field :email, class: 'form-control' %>
+          <span class="input-group-btn">
+            <%= f.submit "SEND", class: 'btn btn-primary' %>
+          </span>
+        <% end %>
+
+      </div>
+      <!-- /PASSWORD -->
+    </div>
+
+    
+
+    <hr />
+
+    <!-- CALLOUT -->
+    <div class="alert alert-default fade in">
+
+      <div class="row">
+
+        <div class="col-md-9 col-sm-8"><!-- left text -->
+          <h4 class="nomargin">New <strong>User</strong></h4>
+          <p class="nomargin">
+            Are you a new user and don't have an account yet?
+          </p>
+        </div><!-- /left text -->
+
+        
+        <div class="col-md-3 col-sm-4 text-right"><!-- right btn -->
+          <%= link_to 'REGISTER', new_user_registration_path, class: "btn btn-primary btn-lg" %>
+        </div><!-- /right btn -->
+
+      </div>
+
+    </div>
+    <!-- /CALLOUT -->
+
+
+  </div>
+</div>
+
+
+<!-- SLIDER -->
+<img id="cycle-loader" src="assets/spinner.gif" alt="loader" />
+
+<ul id="slider">
+  <li><img src="/assets/demo/slider/chamonix-skiing.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+</ul>
+<!-- /SLIDER

@@ -1,0 +1,216 @@
+a:hover {
+  color: #84c5e7 !important;
+}
+
+.logo {
+  color: #fff;
+  font-size: 25px;
+  margin-top: 17px;
+  height: 30px;
+}
+
+.logo:hover {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.schoolers {
+  margin-left:3px;
+  font-weight: 100;
+}
+
+#header, #footer {
+  background: rgba(51, 51, 51, .2);
+  border-bottom: rgba(255, 255, 255, 0.2) 1px solid;
+}
+
+div.maximage-controls #slider_next:hover {
+  background-color:#66B7E2;
+}
+div.maximage-controls #slider_prev:hover {
+  background-color:#66B7E2;
+}
+
+#header ul.nav li a {
+  color: #DADADA;
+  text-shadow:none;
+  height:35px; line-height:35px;
+  margin-top: 12px;
+  font-weight: 100;
+}
+
+#header ul.nav li a.sign-up-btn {
+  color: #fff;
+  background-color: #55C9B2;
+  border-radius: 4px;
+}
+
+#header ul.nav li a.sign-up-btn:hover {
+  background-color: #5CD8BF;
+}
+
+.sign-up-btn {
+  color: #fff;
+  background-color: #55C9B2;
+}
+
+.sign-up-btn:hover {
+  color: #fff;
+  background-color: #5CD8BF;
+}
+
+.btn-info:hover {
+  background-color: #65CFEE;
+}
+
+#header ul.nav li:hover>a {
+  color: #fff;
+  background: none;
+}
+
+#header ul.nav li > a { /* Firefox Fix */
+  background-color: none !important;
+}
+
+#header ul.nav li.active li a,
+#header ul.nav ul li,
+#header ul.nav ul li.active,
+#header ul.nav ul li.active a,
+#header ul.nav ul li a {
+  background: rgba(51, 51, 51, .2);
+}
+
+.dropdown-menu {
+  background: rgba(51, 51, 51, .2) !important;
+}
+
+#header ul.nav ul li a {
+  border-bottom: rgba(255, 255, 255, 0.2) 1px solid;
+  border-top: rgba(255, 255, 255, 0.2) 1px solid;
+}
+
+#header ul.nav ul li a:hover {
+  background: none;
+}
+
+#slider .caption .inputs {
+  color:#fff;
+  background:rgba(0,0,0,0.3);
+  clear:both !important;
+  padding: 15px 6px 0;
+  margin:0 0 10px 0;
+}
+
+#slider .caption .inputs p{
+  background:none;
+  clear:both !important;
+  padding:0; margin:0;
+}
+
+#slider .caption .btn {
+  background-color: #DF5DDF;
+  color:#fff;
+  position:absolute;
+  margin-top:6px;
+  cursor:pointer;
+  z-index:101;
+  bottom:0;
+}
+
+#slider .caption .btn:hover {
+  background-color: #EB62EB;
+}
+
+#slider .caption .btn-default:hover {
+  color:#333;
+  background-color:#fff !important;
+  border-color :#fff !important;
+}
+
+.search-area-icon {
+  background: url(https://a0.muscache.com/airbnb/static/landing_pages/home_v2/homepage-sprite-54617e9d9dbd7f5e375a5667bb7a393f.png) 1px -178px no-repeat;
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  right: 27px;
+  top: 40%;
+  margin-top: -12px;
+  width: 24px;
+  height: 20px;
+}
+
+#middle .white {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#middle .white .alert .btn,
+#middle .white .forgot .btn {
+  background-color: #666;
+  border-color: #666;
+}
+
+#middle .white .alert .btn:hover,
+#middle .white .forgot .btn:hover {
+  background-color: #777;
+  border-color: #777;
+}
+
+#middle .facebook-box {
+  margin-top: 30px;
+}
+
+#middle .facebook-box .text {
+  text-align: center;
+  font-size: 13px;
+  color: #919191;
+}
+
+#middle .facebook-box .button {
+  margin-top: 5px;
+}
+
+#middle .facebook-box .facebook-login {
+  text-align: center;
+  color: #fff;
+  background: #355088;
+}
+
+#middle .facebook-box .facebook-login:hover {
+  background: #3B5998;
+  text-decoration: none;
+}
+
+#middle .white .forgot .form-control {
+  border-radius: 6px 0 0 6px;
+}
+
+#middle hr {
+  margin: 30px 0;
+}
+
+#middle .white .return-link {
+  margin-top: 20px;
+}
+
+.student-box {
+  border: 1px solid rgb(216, 216, 216);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.remove-student {
+  color: rgb(141, 18, 18);
+  font-size: 10px;
+}
+
+#lesson_objectives {
+  max-height: 100px;
+}
+
+.lesson-break {
+  margin: 0 0 15px !important;
+}
+
+.active-actions {
+  margin-top: 20px;
+}
