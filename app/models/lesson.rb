@@ -12,7 +12,7 @@ class Lesson < ActiveRecord::Base
   validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
   validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
-  validate :instructors_must_be_available
+  validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?
   validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
@@ -97,7 +97,7 @@ class Lesson < ActiveRecord::Base
   private
 
   def instructors_must_be_available
-    errors.add(:instructor, "not available") unless instructor.nil? && available_instructors.any?
+    errors.add(:instructor, "not available") unless available_instructors.any?
   end
 
   def requester_must_not_be_instructor
@@ -124,5 +124,9 @@ class Lesson < ActiveRecord::Base
 
   def just_finalized?
     waiting_for_payment?
+  end
+
+  def no_instructors_post_instructor_drop?
+    pending_requester?
   end
 end
