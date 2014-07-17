@@ -18,6 +18,7 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @lesson_time = @lesson.lesson_time
     @state = 'booked'
+    flash.now[:notice] = "You're almost there! We just need a few more details."
   end
 
   def edit
