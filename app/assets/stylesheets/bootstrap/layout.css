@@ -26,7 +26,6 @@ html, body {
 body {
 	color:#333;
 	font-family:'Open Sans', Arial, sans-serif;
-	background:#B4B8BA url('../../assets/bg.png') no-repeat fixed center;
 	letter-spacing:0px;
 
 	font-size:15px; line-height:23px;
