@@ -2,7 +2,7 @@ SnowSchoolers::Application.routes.draw do
   root to: "lessons#new"
 
   resources :lesson_times
-  
+
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks" }
 
   resources :lessons

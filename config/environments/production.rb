@@ -78,15 +78,20 @@ SnowSchoolers::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # mailer config
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'snowschoolers.herokuapp.com',
-    user_name:            ENV['GMAIL_USERNAME'],
-    password:             ENV['GMAIL_PASSWORD'],
-    authentication:       'plain',
-    enable_starttls_auto: true  }
+  #GMAIL CONFIG
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "skischool.co",
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: "brian@skischool.co",
+    password: ENV["GMAIL_PASSWORD"]
+  }
+
 end
