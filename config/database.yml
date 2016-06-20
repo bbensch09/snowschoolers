@@ -1,20 +1,20 @@
-mysql: &mysql
-  encoding: utf8
-  adapter: mysql2
-  username: root
-  host: localhost
-
-common: &defaults
-  <<: *mysql
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
 
 development:
-  <<: *defaults
+  <<: *default
   database: snow_schoolers_development
 
 test:
-  <<: *defaults
+  <<: *default
   database: snow_schoolers_test
 
 production:
-  <<: *defaults
-  database: snow_schoolers_test
+  <<: *default
+  database: snow_schoolers_production
+  username: snowschoolers
+  password: bb4ss109
