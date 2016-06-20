@@ -14,3 +14,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+#Ignore Local ENV variables
+/config/local_secrets.yml
+/config/aws.yml
+/config/secrets.yml

@@ -3,7 +3,8 @@
 
 <ul id="slider">
   <li>
-    <img src="/assets/demo/slider/ski-1.jpg" alt="" />
+    <!-- <img src="/assets/demo/slider/thredbo-village-resort-hero.jpg" class="bg-photo" alt="" /> -->
+    <img src="/assets/demo/slider/thredbo1.jpg" class="bg-photo" alt="" />
     <div class="caption">
 
       <div class="block">
@@ -11,7 +12,7 @@
       </div>
 
       <div class="block">
-        <p>Some text about why <strong>Snow Schoolers</strong> is awesome and people should book their lessons today!</p>
+        <p>Personalized one-on-one attention from an expert <strong>Ski School Co </strong> instructor is the best way to experience the Snowies!</p>
       </div>
 
       <%= semantic_form_for @lesson do |f| %>
@@ -23,7 +24,7 @@
               </div>
 
               <div class="col-md-3">
-                <%= f.input :location, as: :select, collection: ['Squaw Valley', 'Alpine Meadows', 'Northstar'], include_blank: 'Mountain', label: false %>
+                <%= f.input :location, as: :select, collection: ['Thredbo', 'Perisher', 'Mt. Buller', 'Mt. Hotham', 'Falls Creek'], include_blank: 'Mountain', label: false %>
               </div>
 
               <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>

@@ -5,6 +5,13 @@ class User < ActiveRecord::Base
 
   has_many :lessons
   has_many :lesson_times, through: :lessons
+  after_create :send_admin_notification
+
+  def send_admin_notification
+      @user = User.last
+      LessonMailer.new_user_signed_up(@user).deliver
+      puts "an admin notification has been sent."
+  end
 
   def self.instructors
     self.where('instructor = true')

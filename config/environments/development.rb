@@ -27,15 +27,21 @@ SnowSchoolers::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  # mailer config
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   address:              'smtp.gmail.com',
-  #   port:                 587,
-  #   domain:               'snowschoolers.herokuapp.com',
-  #   user_name:            ENV['GMAIL_USERNAME'],
-  #   password:             ENV['GMAIL_PASSWORD'],
-  #   authentication:       'plain',
-  #   enable_starttls_auto: true  }
-  config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  #GMAIL CONFIG
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.perform_deliveries = false
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "skischool.co",
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: "brian@skischool.co",
+    password: ENV["GMAIL_PASSWORD"]
+  }
+
 end
