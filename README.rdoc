@@ -1,9 +1,6 @@
-== README
+== SNOW SCHOOLERS - README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This application is currently under development. For questions or inquiries, please email brian@snowschoolers.com
 
 * Ruby version
 
