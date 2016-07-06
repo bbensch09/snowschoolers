@@ -1,0 +1,41 @@
+<img id="cycle-loader" src="/assets/spinner.gif" alt="loader" />
+
+<ul id="slider">
+  <li>
+    <!-- <img src="/assets/demo/slider/thredbo-village-resort-hero.jpg" class="bg-photo" alt="" /> -->
+    <img src="/assets/demo/slider/thredbo1.jpg" class="bg-photo" alt="" />
+
+    <div class="caption col-md-10 col-md-offset-2">
+      <div class="block">
+        <h1>STAY IN TOUCH</h1>
+      </div>
+
+      <div class="block">
+      </div>
+
+        <%= form_for(@beta_user) do |f| %>
+          <% if @beta_user.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@beta_user.errors.count, "error") %> prohibited this beta_user from being saved:</h2>
+              <ul>
+              <% @beta_user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div class="col-md-6 email-input">
+            <%= f.email_field :email, autofocus: true, class:"black-text input-group input-group-lg", placeholder:"Enter Email"  %>
+             <!-- <%= f.select :user_type, options_for_select(['Interested in taking lessons', 'Interested in teaching']), class: "col-md-4 black-text " %> -->
+             <br>
+             <br>
+<%= f.submit "Sign up", class:"btn btn-signup btn-lg" %>
+          </div>
+          <div class="col-md-6">
+          </div>
+        <% end %>
+    </div>
+  </li>
+</ul>
+
+<!-- %= render "devise/shared/links" %> -->

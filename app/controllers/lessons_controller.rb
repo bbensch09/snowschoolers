@@ -5,6 +5,10 @@ class LessonsController < ApplicationController
   before_filter :save_lesson_params_and_redirect, only: :create
   before_filter :create_lesson_from_session
 
+  def index
+    @lessons = Lesson.all
+  end
+
   def new
     @lesson = Lesson.new
     @lesson_time = @lesson.lesson_time
@@ -127,7 +131,7 @@ class LessonsController < ApplicationController
     unless current_user && (current_user == @lesson.requester || current_user.instructor?)
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
-    end 
+    end
   end
 
   def format_previous_experiences
