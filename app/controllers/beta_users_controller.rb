@@ -28,7 +28,7 @@ class BetaUsersController < ApplicationController
 
     respond_to do |format|
       if @beta_user.save
-        format.html { redirect_to root_path, notice: 'Thanks for signing up!.' }
+        format.html { redirect_to root_path, notice: 'Thanks for signing up!' }
         format.json { render action: 'show', status: :created, location: @beta_user }
       else
         format.html { render action: 'new' }
