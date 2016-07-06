@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @beta_user.email %>
+</p>
+
+<p>
+  <strong>User type:</strong>
+  <%= @beta_user.user_type %>
+</p>
+
+<%= link_to 'Edit', edit_beta_user_path(@beta_user) %> |
+<%= link_to 'Back', beta_users_path %>

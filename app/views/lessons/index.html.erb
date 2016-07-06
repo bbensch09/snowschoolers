@@ -1,0 +1,27 @@
+<h1>[ADMIN ONLY] List of all lessons</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lesson Link</th>
+      <th>Time Stamp</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lessons.each do |lesson| %>
+      <tr>
+        <td><%= link_to lesson.id, lesson %></td>
+        <td><%= lesson.created_at %></td>
+        <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>
+        <td><%= link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Beta user', new_beta_user_path %>

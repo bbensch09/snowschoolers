@@ -32,6 +32,9 @@
     <div class="navbar-collapse nav-main-collapse collapse pull-right">
       <nav class="nav-main">
         <ul class="nav nav-pills nav-main scroll-menu" id="topMain">
+            <li>
+              <%= link_to 'Subscribe for Updates', "/beta_users/new", class: 'sign-up-btn' %>
+            </li>
           <% if current_user %>
             <% name = current_user.name.present? ? current_user.name : 'Profile' %>
             <li>
