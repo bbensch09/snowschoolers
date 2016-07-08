@@ -1,17 +1,17 @@
 <div class='active-actions'>
   <% if current_user.instructor? && @lesson.instructor.nil? %>
-    <%= button_to "Take It", set_instructor_path, method: :put %>
+    <%= button_to "Accept this Lesson Request", set_instructor_path, method: :put, class: "btn btn-success" %>
   <% end %>
 
   <% if current_user == @lesson.instructor %>
     <% if @lesson.pending_instructor? %>
-      <%= button_to "Confirm Updates", set_instructor_path, method: :put %>
+      <%= button_to "Confirm Updates", set_instructor_path, method: :put, class: "btn btn-default" %>
     <% end %>
-    <%= button_to "Drop It", remove_instructor_path, method: :put %>
+    <%= button_to "Drop It", remove_instructor_path, method: :put, class: "btn btn-warning" %>
   <% end %>
 
   <% if current_user == @lesson.requester %>
     <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
-    <%= link_to 'Cancel Lesson', @lesson, method: :delete %>
+    <%= link_to 'Cancel Lesson', @lesson, method: :delete, class: "btn btn-warning" %>
   <% end %>
 </div>

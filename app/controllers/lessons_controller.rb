@@ -58,7 +58,9 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = current_user
     @lesson.update(state: 'confirmed')
-    LessonMailer.send_lesson_confirmation(@lesson).deliver
+    if @lesson.state =='booked'
+      LessonMailer.send_lesson_confirmation(@lesson).deliver
+    end
     redirect_to @lesson
   end
 
@@ -141,6 +143,9 @@ class LessonsController < ApplicationController
 
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
+    if @lesson.state == 'new'
+      flash[:alert] = "Lesson could not be updated."
+    end
     @state = params[:lesson][:state]
   end
 
