@@ -82,15 +82,8 @@
           </div>
 
           <div class='col-md-12'>
-            <label>Previous Experience (check all that apply)</label>
-            <%= f.input :previous_experiences, as: :check_boxes, collection: [
-  'Never taken a lesson before.',
-  'Taken a group lesson previously.',
-  'Taken a private lesson previously.',
-  'Skied (snowboarded) a total of 3 times or less.',
-  'Skied (snowboarded) between 4 and 10 times.',
-  'Skied (snowboarded) more than 10 days.'
-], label: false %>
+            <label>Previous Experience</label>
+            <%= f.input :previous_experiences, as: :check_boxes, label: false %>
           </div>
         </div>
       </div>
