@@ -79,7 +79,7 @@ SnowSchoolers::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   #GMAIL CONFIG
-  config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  config.action_mailer.default_url_options = { :host => 'snowschoolers.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
@@ -87,10 +87,10 @@ SnowSchoolers::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "skischool.co",
+    domain: "snowschoolers.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "brian@skischool.co",
+    user_name: "brian@snowschoolers.com",
     password: ENV["GMAIL_PASSWORD"]
   }
 

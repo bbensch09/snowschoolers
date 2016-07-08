@@ -37,10 +37,10 @@ SnowSchoolers::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "skischool.co",
+    domain: "snowschoolers.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "brian@skischool.co",
+    user_name: "brian@snowschoolers.com",
     password: ENV["GMAIL_PASSWORD"]
   }
 
